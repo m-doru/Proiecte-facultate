@@ -1,7 +1,10 @@
 package main;
 import java.util.*;
 public class Subchapter extends BookElement {
-	ArrayList<String> paragraph;
+	/**
+	 * @param paragraphs ArrayList of Strings which will hold paragraphs
+	 */
+	ArrayList<String> paragraphs;
 
 	@Override
 	public void add(String subchapterTitle, int position) {
