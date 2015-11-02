@@ -5,6 +5,8 @@ package main;
  * @version 1.00	
  */
 import interfaces.Indexable;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import exceptions.EntityExistsException;
 import exceptions.EntityNotExistsException;
@@ -14,7 +16,13 @@ public class Book extends BookElement implements Indexable{
 	ArrayList<String> authors;
 	
 	@Override
-	public String index(){throw new UnsupportedOperationException(); }
+	public String index(){
+		long index = this.title.hashCode();
+		for(String author : authors)
+			index += author.hashCode();
+		index %= 9999999999L;
+		return Long.toString(index);
+	}
 	
 	/**
 	 * The constructor gets the title and a variable number of authors
@@ -62,6 +70,22 @@ public class Book extends BookElement implements Indexable{
 	}
 	
 	/**
+	 * The method adds subChapterTitle to chapter chapterTitle
+	 * @param chapterTitle String variable representing the chapter where the sub chapter is wanted to be added
+	 * @param subChapterTitle String variable representing the sub chapter to be added
+	 */
+	
+	public void addSubchapter(String chapterTitle, String subChapterTitle) throws EntityNotExistsException, EntityExistsException{
+		Chapter _chapter = new Chapter(chapterTitle);
+		if(this.subElements.contains(_chapter) == true){
+			this.subElements.get(this.subElements.indexOf(_chapter)).add(subChapterTitle);
+		}
+		else{
+			throw new EntityNotExistsException(chapterTitle);
+		}
+	}
+	
+	/**
 	 * The method adds the sub chapter "subChapter" to chapter "chapterTitle" at the position "subChapterPosition" 
 	 * If the chapter doesn't exists will thrown an !!!Make exception: EntityNotExistsException
 	 * @param chapterTitle String variable - the title of the chapter where to be added the sub chapter "subChapter"
@@ -96,7 +120,7 @@ public class Book extends BookElement implements Indexable{
 	}
 	
 	/**
-	 * The method add a in chapter chapterTitle, sub chapter subChapter the paragraph paragraph ar position position
+	 * The method adds a in chapter chapterTitle, sub chapter subChapter the paragraph paragraph ar position position
 	 * @param chapterTitle String variable - the chapter containing the subChapter where the paragraph will be added
 	 * @param subChapter String variable - the sub chapter where the paragraph will be added
 	 * @param paragraph String variable - the paragraph to be added
@@ -153,4 +177,65 @@ public class Book extends BookElement implements Indexable{
 		return false;
 	}
 	
+	/**
+	 * The method removes the paragraph situated at position paragraph in subChapterTitle from chapterTitle
+	 * @param chapterTitle String variable representing the chapter from which the paragraph is to be removed
+	 * @param subChapterTitle String variable representing the sub chapter from which is to be removed the paragraph at position paragraphPosition 
+	 * @param paragraphPosition int variable representing the position of the paragraph that is to be removed
+	 * @return
+	 */
+	public boolean remove(String chapterTitle, String subChapterTitle, int paragraphPosition){
+		Chapter _chapter = new Chapter(chapterTitle);
+		if(this.subElements.contains(_chapter) == true){
+			return ((Chapter)(this.subElements.get(this.subElements.indexOf(_chapter)))).remove(subChapterTitle, paragraphPosition);
+		}
+		return false;
+	}
+	
+	private void printTitleAndAuthors(PrintWriter out,boolean printAuthors){
+		out.println(title);
+		if(printAuthors == true){
+			out.print("\tBy: ");
+			for(String s : authors)
+				out.print (s + " ");
+		}
+	}
+	
+	/**
+	 * The method prints the book: title, authors, chapters, sub chapters and paragraphs with format
+	 */
+	public void print(PrintWriter out){
+		printTitleAndAuthors(out,true);
+		out.println();
+		for(int chapterCardinal = 0; chapterCardinal < subElements.size(); ++chapterCardinal){
+			subElements.get(chapterCardinal).print(out,chapterCardinal);
+		}
+			
+	}
+	@Override
+	void print(PrintWriter out,int... cardinal){
+		//void implementation of abstract method
+	}
+	
+	/**
+	 * The method prints the specified chapter with all the subchapters and paragraphs
+	 * @param chapterTitle String variable representing the chapter to be printed
+	 * @throws EntityNotExistsException Exception thrown when the chapter chapterTitle does not exist
+	 */
+	public void printChapter(PrintWriter out,String chapterTitle) throws EntityNotExistsException{
+		Chapter _chapter = new Chapter(chapterTitle);
+		if(this.subElements.contains(_chapter)){
+			this.subElements.get(this.subElements.indexOf(_chapter)).print(out);
+		}
+		else
+			throw new EntityNotExistsException();
+	}
+	public void printTableOfContents(PrintWriter out){
+		printTitleAndAuthors(out,true);
+		out.println();
+		int cardinal = 0;
+		for(BookElement chapter : subElements){
+			((Chapter)chapter).printNoParagraphs(out,cardinal++);
+		}
+	}
 }

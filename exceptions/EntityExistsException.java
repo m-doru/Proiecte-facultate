@@ -9,7 +9,7 @@ public class EntityExistsException extends Throwable{
 	public EntityExistsException() {
 		;
 	}
-	public EntityExistsException(String _err){
-		this.err = _err;
+	public EntityExistsException(String err){
+		this.err = err;
 	}
 }

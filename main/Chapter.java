@@ -1,6 +1,8 @@
 package main;
 
 import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.lang.System;
 import exceptions.EntityNotExistsException;
 import exceptions.EntityExistsException;
 class Chapter extends BookElement {
@@ -19,7 +21,7 @@ class Chapter extends BookElement {
 	 * The method takes a string representing the title of the sub chapter to be added and the position where to be added
 	 * @param subChapter String variable - the title of the sub chapter
 	 */
-	public void add(String subChapter) throws EntityExistsException{
+	void add(String subChapter) throws EntityExistsException{
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == false){
 			this.subElements.add(_subChapter);
@@ -35,7 +37,7 @@ class Chapter extends BookElement {
 	 * @throws EntityExistsException Exception thrown when the subChapter already exists
 	 */
 	@Override
-	public void add(String subChapter, int position) throws EntityExistsException{
+	void add(String subChapter, int position) throws EntityExistsException{
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == false){
 			this.subElements.add(position, _subChapter);
@@ -50,7 +52,7 @@ class Chapter extends BookElement {
 	 * @param paragraphs String array representing the paragraphs to be added
 	 * @throws EntityNotExistsException 
 	 */
-	public void addParagraph(String subChapter, String... paragraphs) throws EntityNotExistsException{
+	void addParagraph(String subChapter, String... paragraphs) throws EntityNotExistsException{
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == true){
 			((SubChapter)(this.subElements.get(this.subElements.indexOf(_subChapter)))).addParagraph(paragraphs);
@@ -59,7 +61,7 @@ class Chapter extends BookElement {
 			throw new EntityNotExistsException(subChapter);
 	}
 	
-	public void addParagraph(String subChapter, String paragraph, int position) throws EntityNotExistsException, IndexOutOfBoundsException{
+	void addParagraph(String subChapter, String paragraph, int position) throws EntityNotExistsException, IndexOutOfBoundsException{
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == true){
 			((SubChapter)(this.subElements.get(this.subElements.indexOf(_subChapter)))).add(paragraph, position);
@@ -69,19 +71,58 @@ class Chapter extends BookElement {
 	}
 	
 	@Override
-	public boolean remove(String subChapter){
+	boolean remove(String subChapter){
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == true){
 			return this.subElements.remove(_subChapter);
 		}
 		return false;
 	}
-	
-	public boolean remove(String subChapter, String paragraph){
+	boolean remove(String subChapter, String paragraph){
 		SubChapter _subChapter = new SubChapter(subChapter);
 		if(this.subElements.contains(_subChapter) == true){
 			return ((SubChapter)(this.subElements.get(this.subElements.indexOf(_subChapter)))).remove(paragraph);
 		}
 		return false;
+	}
+	boolean remove(String subChapter, int paragraph){
+		SubChapter _subChapter = new SubChapter(subChapter);
+		if(this.subElements.contains(_subChapter) == true){
+			return ((SubChapter)(this.subElements.get(this.subElements.indexOf(_subChapter)))).remove(paragraph);
+		}
+		return false;
+	}
+	
+	void printTitle(PrintWriter out,int... cardinal){
+		out.print("Chapter ");
+		for(int chapterCardinal = 0 ; chapterCardinal < cardinal.length - 1; ++chapterCardinal){
+			out.print(cardinal[chapterCardinal]+1 + ".");
+		}
+		
+		if(cardinal.length > 0){
+			out.print(cardinal[cardinal.length-1]);
+		}
+		out.println( ": " + this.title);
+	}
+	
+	void print(PrintWriter out,int... cardinal){
+			printTitle(out, cardinal);
+			int []ierarchy = new int[cardinal.length + 1];
+			if(cardinal.length > 0)
+				System.arraycopy(cardinal, 0, ierarchy, 0, cardinal.length);
+			for(int subchapterCardinal = 0; subchapterCardinal < this.subElements.size(); ++subchapterCardinal){
+				ierarchy[ierarchy.length-1] = subchapterCardinal;
+				subElements.get(subchapterCardinal).print(out,ierarchy);
+			}
+	}
+	void printNoParagraphs(PrintWriter out,int... cardinal){
+		printTitle(out,cardinal);
+		int []ierarchy = new int[cardinal.length + 1];
+		if(cardinal.length > 0)
+			System.arraycopy(cardinal, 0, ierarchy, 0, cardinal.length);
+		for(int subchapterCardinal = 0; subchapterCardinal < this.subElements.size(); ++subchapterCardinal){
+			ierarchy[ierarchy.length-1] = subchapterCardinal;
+			((SubChapter)(subElements.get(subchapterCardinal))).printTitle(out,ierarchy);
+		}
 	}
 }
