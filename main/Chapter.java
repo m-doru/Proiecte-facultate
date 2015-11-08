@@ -96,11 +96,11 @@ class Chapter extends BookElement {
 	void printTitle(PrintWriter out,int... cardinal){
 		out.print("Chapter ");
 		for(int chapterCardinal = 0 ; chapterCardinal < cardinal.length - 1; ++chapterCardinal){
-			out.print(cardinal[chapterCardinal]+1 + ".");
+			out.print((cardinal[chapterCardinal]+1) + ".");
 		}
 		
 		if(cardinal.length > 0){
-			out.print(cardinal[cardinal.length-1]);
+			out.print((cardinal[cardinal.length-1]+1));
 		}
 		out.println( ": " + this.title);
 	}

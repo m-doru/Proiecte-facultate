@@ -30,14 +30,14 @@ public class Book extends BookElement implements Indexable{
 	 * @param authors String array, holds the authors of the book
 	 * 
 	 */
-	Book(String title, String... authors){
+	public Book(String title, String... authors){
 		this.title = title;
 		this.authors = new ArrayList<>();
 		for(String author : authors)
 			this.authors.add(author);
 		this.subElements = new ArrayList<>();
 	}
-	
+	public Book(){}
 	@Override
 	/**
 	 * The method adds new chapter with title chapterTitle at the position "position"
@@ -208,7 +208,7 @@ public class Book extends BookElement implements Indexable{
 		printTitleAndAuthors(out,true);
 		out.println();
 		for(int chapterCardinal = 0; chapterCardinal < subElements.size(); ++chapterCardinal){
-			subElements.get(chapterCardinal).print(out,chapterCardinal);
+			subElements.get(chapterCardinal).print(out,chapterCardinal+1);
 		}
 			
 	}
