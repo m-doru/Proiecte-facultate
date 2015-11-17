@@ -1,0 +1,72 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\title{Reparti\c{t}ia Poisson}
+\author{Mu\c{s}uroi Doru Cr\u{a}ciun}
+\renewcommand{\baselinestretch}{1.5}
+\begin{document}
+	\maketitle
+	X variabil\u{a} aleatoare $\sim$ $P_o$($\lambda$), $\lambda > 0$ daca P(X=k) = $e^{(-k)}\cdot \frac{\lambda^k}{k!}$
+	\newline
+	\[
+	X=
+	\begin{bmatrix}
+	0 & 1 & 2 & ... & k & ... \\
+	e^{-\lambda}
+	& e^{-\lambda} \cdot \lambda
+	& e^{-\lambda}\cdot \frac{\lambda^{k}}{k}
+	&... & 
+	e^{-\lambda}\cdot \frac{\lambda^{k}}{k} & ...
+	\end{bmatrix}
+	\]
+	\newline
+	Exerci\c{t}iu:
+	\begin{enumerate}
+		\item
+		Verifica\c{t}i c\u{a} este o reparti\c{t}ie
+		\item
+		MX = $\lambda$, 
+		$D^2$X = $\lambda$
+	\end{enumerate}
+	\begin{enumerate}
+		\item
+		Ce trebuie demonstrat:
+		$\sum\limits_{k=0}^{\infty}P(X = k) = 1$
+		\newline
+		$\sum\limits_{k=0}^{\infty}P(X = k) = \sum\limits_{k=0}^{\infty}e^{-\lambda}\cdot \frac{\lambda^k}{k!} = e^{-\lambda}\cdot \sum\limits_{k=0}^{\infty}\frac{\lambda^k}{k!} = e^{-\lambda}\cdot e^{\lambda} = 1$
+		\newline
+		Observa\c{t}ie:$\sum\limits_{n=0}^{\infty}\frac{\lambda^n}{n!} = e^\lambda$
+		\item
+		MX = $\sum\limits_{k=0}^{\infty}k\cdot P(X = k) = \sum\limits_{k=0}^{\infty}k\cdot e^{-\lambda}\cdot \frac{\lambda^k}{k!} =
+		\lambda\cdot\sum\limits_{k=1}^{\infty}e^{-\lambda}\cdot\frac{\lambda^{k-1}}{(k-1)!} = \lambda\cdot e^{-\lambda}\cdot\sum\limits_{i=0}^{\infty}\frac{\lambda^i}{i!} = e^{-\lambda}\cdot\lambda\cdot e^\lambda = \lambda$
+		\newline
+		$D^2X = M(X^2)-(MX)^2 = M(X^2) - \lambda^2 = \lambda^2 + \lambda - \lambda^2 = \lambda$
+		\newline
+		\newline
+		Obs: $M(X^2) = \sum\limits_{k\geq0}k^2P(X=k) = \sum\limits_{k\geq0}k^2\cdot e^{-\lambda}\cdot\frac{\lambda^k}{k!} = e^{-\lambda}\sum\limits_{k\geq0}k\cdot\frac{\lambda^k}{(k-1)!} = e^{-\lambda}\cdot(\sum\limits_{k\geq1}\cdot\frac{\lambda^k}{(k-1)!}) = e^{-\lambda}(\sum\limits_{k\geq1}\frac{\lambda^k\cdot(k-1)}{(k-1)!} + \sum\limits_{k\geq1}\frac{\lambda^k}{(k-1)!}) = e^{-\lambda}(\lambda^2\cdot\sum\limits_{k\geq2}\frac{\lambda^{k-2}}{(k-2)!} + \lambda\cdot\sum\limits_{k\geq1}\frac{\lambda^{k-1}}{(k-1)!}) = e^{-\lambda}\cdot(\lambda^2\cdot e^\lambda + \lambda\cdot e^\lambda) = \lambda^2 + \lambda$
+	\end{enumerate}
+	\underline{Leg\u{a}tura dintre reparti\c{t}ia binomiala \c{s}i reparti\c{t}ia Poisson}
+	\newline
+	$X_n v.a. ~ Bi(n, \frac{\lambda}{n}); \lambda > 0, n \in N^*
+	\newline
+	\lim\limits_{n\rightarrow\infty}P(X=k) =
+	\lim\limits_{n\rightarrow\infty}
+	C_n^k(\frac{\lambda}{n})^k\cdot(1-\frac{\lambda}{n})^{n-k} =
+	\lim\limits_{n\rightarrow\infty}\frac{n!}{k!(n-k)!} 
+	\cdot 
+	\frac{\lambda^k}{n^k}
+	\cdot
+	(1-\frac{\lambda}{n})^n
+	\cdot
+	(1-\frac{\lambda}{n})^{-k}
+	= \frac{\lambda^k}{k!}\cdot
+%	$\frac{\lim\limits_{n\rightarrow \infty}(1-\frac{\lambda}{n})^{-k}}{1}$
+	\frac{\lim\limits_{n\rightarrow\infty}(1-\frac{\lambda}{n})^{-k}}{1}
+	\cdot \frac{\lim\limits_{n\rightarrow\infty}(1-\frac{\lambda}{n})^n}{e^{-\lambda}}
+	\cdot \frac{\lim\limits_{n\rightarrow\infty}\frac{(n-k+1)\cdot(n-k+2)\cdot...\cdot n}{n\cdot n\cdot ... \cdot n}}{1}
+	= \frac{\lambda^k}{k!}\cdot e^{-\lambda}$
+	\newline
+	$\lim\limits_{n\rightarrow\infty}P(X=k) = \frac{e^{-\lambda}\cdot \lambda^k}{l!}$
+	\newline
+	Dac\u{a} $p_n$ e foarte mic\u{a} \c{s}i n suficient de mare putem aproxima distribu\c{t}ia binomiala cu o \underline{distribu\c{t}ie Poisson} (distribu\c{t}ia evenimentelor rare)
+	\newline
+\end{document}
