@@ -22,7 +22,6 @@ public:
     void adauga(T);
     void afiseaza();
     void multimizare();
-    //la urmatoarele 3 functii e problema
     Multime reuneste (Multime);
     Multime intersecteaza (Multime);
     Multime diferentiaza (Multime);
