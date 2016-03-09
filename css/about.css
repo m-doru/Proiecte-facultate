@@ -1,0 +1,12 @@
+html{
+	background: url('./../res/background_about.png') no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#about_site{
+	padding:7% 10% 0% 10%;
+	color:rgb(0,0,52);
+}
