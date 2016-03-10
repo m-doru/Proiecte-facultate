@@ -41,14 +41,14 @@
     </header>
     <div id="container">
         <form>
-            <select name="genre">
+            <select name="genre" id="genre">
                 <option value="rpg">RPG</option>
                 <option value="for_parties">For Parties</option>
-                <option valie="shooter">Shooter</option>
+                <option value="shooter">Shooter</option>
             </select>
-            <input type="text" name="title" placeholder="Title" /><br />
-            <textarea id="suggestion_description"name="description" placeholder="Description of the game"></textarea>
-            <input type="submit" value="Submit" onclick="alert('Suggestion sent. Thank you!')"/>
+            <input id="suggestion_title" type="text" name="title" placeholder="Title" /><br />
+            <textarea id="suggestion_description"name="description" placeholder="Oppinion of the game"></textarea>
+            <input id="submit_button" type="submit" value="Submit" onclick="alert('Suggestion sent. Thank you!')"/>
         </form>
 
     </div>

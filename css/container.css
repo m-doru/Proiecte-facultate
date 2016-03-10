@@ -8,26 +8,44 @@ html {
   -moz-box-sizing: inherit;
   box-sizing: inherit;
   }
+#aside{
+	width:10%;
+	display:flow;
+	position:fixed;
+	right:5%;
+	z-index:10;	
+}
 #container{
 	padding:7% 0px 0px 0px;
+	display:flow;
+	float:left;
+	width:90%;
 }
 #container > *{
     display:inline-block;
 }
 .blurb{
     display:none;
+	color:white;
 }
 .item{
     width:17%;
     height:23%;
-	padding:0em 1em 0em 1em;
+	margin:0em 0em 0em 2em;
 	border:4px;
 }
 .poster{
     width:100%;
     float:none;
 }
-.poster:hover + .blurb{
+.item:hover .blurb{
     display:block;
 }
 
+footer:not(#copy_right){
+	position:fixed;
+	bottom:0;
+	right:0;
+	color:white;
+	
+}
