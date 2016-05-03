@@ -1,5 +1,4 @@
 #menu ul{
-	position:fixed;
 	list-style-type:none;
 	margin:0;
 	padding:0;
@@ -42,20 +41,25 @@
 }
 
 .dropdown{
-	position:relative;
-	display:inline-block;
+	display: inline-block;
 }
 
 .dropdown-content{
 	display:none;
 	position:absolute;
-	background-color:#111;
-	width:150%;
-    z-index: 1;
+	background-color:rgb(0, 0, 52);
+	margin-top: -3px;
+  z-index: 1;
+	text-align: center;
 }
 
 .dropdown:hover .dropdown-content{
-	display:block;
+	display: inline-block;
+}
+
+.dropdown-item{
+	display: inline-block;;
+	overflow: hidden;
 }
 
 

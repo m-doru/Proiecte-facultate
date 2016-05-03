@@ -2,3 +2,7 @@
     width:80%;
     height:80%;
 }
+
+#menu li{
+  font-size: 0.8em;
+}
