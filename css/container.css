@@ -25,9 +25,18 @@ html {
     display:inline-block;
 }
 .blurb{
-    display:none;
-	color:white;
+		visibility: hidden;
+		margin-left: -5000px;
+	  color:white;
+		transition: margin-left 0.5s ease-in-out;
 }
+
+.item:hover .blurb{
+		visibility: visible;
+		margin-left: 0px;
+    display:block;
+}
+
 .item{
     width:17%;
     height:23%;
@@ -37,9 +46,6 @@ html {
 .poster{
     width:100%;
     float:none;
-}
-.item:hover .blurb{
-    display:block;
 }
 
 footer:not(#copy_right){
