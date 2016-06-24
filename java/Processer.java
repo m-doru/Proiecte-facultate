@@ -1,12 +1,15 @@
 public class Processer{
-  private long which = 0;
+
   private int[] current;
   private int maxCount = -1;
-  private int[] mostPresent  = new int[4];
+  private int[] mostPresent;
   private int[][] all;
-  public Processer(int[] ext, int[][] extrageri){
+  private int size;
+  public Processer(int[] ext, int[][] extrageri, int size){
     this.current = ext;
     this.all = extrageri;
+    this.mostPresent = new int[size];
+    this.size = size;
   }
 
   public int[] getMostPresent(){
@@ -19,14 +22,14 @@ public class Processer{
 
   public void process(int []comb){
 
-    int[] subset = new int[4];
-    //for(int i = 0; i < 4; ++i)
-      //subset[i] = current[comb[i]];
+    int[] subset = new int[size];
+    for(int i = 0; i < size; ++i)
+      subset[i] = current[comb[i]-1];
 
-    subset[0] = current[comb[0]-1];
-    subset[1] = current[comb[1]-1];
-    subset[2] = current[comb[2]-1];
-    subset[3] = current[comb[3]-1];
+    //subset[0] = current[comb[0]-1];
+    //subset[1] = current[comb[1]-1];
+    //subset[2] = current[comb[2]-1];
+    //subset[3] = current[comb[3]-1];
 
     int count = getCount(subset);
 
@@ -39,14 +42,17 @@ public class Processer{
   private int getCount(int []subset){
     int count = 0;
 
-    int size = all.length;
+    int sz = all.length;
 
-    for(int i = 0; i < size; ++i)
-      if(find(subset[0], all[i])
-                  && find(subset[1], all[i])
-                  && find(subset[2], all[i])
-                  && find(subset[3], all[i]))
-        count++;
+    boolean ok = true;
+
+    for(int i = 0; i < sz; ++i){
+        for(int j = 0; j < size; ++j)
+            ok = ok && find(subset[j], all[i]);
+        if(ok == true)
+            count++;
+        ok = true;
+    }
     return count;
   }
 

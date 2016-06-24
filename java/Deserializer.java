@@ -9,9 +9,13 @@ public class Deserializer{
         
         ArrayList<Result> results = new ArrayList<>();
 
-        while(ois.available() > 0){
-            results.add((Result)ois.readObject());
+
+        Result res;
+        try{
+            while((res = (Result)ois.readObject()) != null)
+                results.add(res);
         }
+        catch(EOFException e){} 
 
         return results;
     }
