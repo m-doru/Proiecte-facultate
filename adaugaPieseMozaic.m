@@ -8,10 +8,10 @@ function imgMozaic = adaugaPieseMozaic(params)
 imgMozaic = uint8(zeros(h,w,c));
 
 if c == 1
-  for i = 1:N
-    params.pieseMozaic(:,:,1,i) = rgb2gray(params.pieseMozaic(:,:,:,i));
-  end
-   params.pieseMozaic(:,:,2:end,:) = [];
+    for i = 1:N
+        params.pieseMozaic(:,:,1,i) = rgb2gray(params.pieseMozaic(:,:,:,i));
+    end
+    params.pieseMozaic(:,:,2:end,:) = [];
 end
 
 switch(params.criteriu)
@@ -77,17 +77,22 @@ switch(params.criteriu)
                 
                 normaPixeliReferinta = sum((double(pixeliReferinta(:))).^2);
                 
-                dims = ones(1, length(size(pixeliReferinta)));
+                if c == 1
+                    dims = ones(1, length(size(params.pieseMozaic)) - 1);
+                else
+                    dims = ones(1, length(size(pixeliReferinta)));
+                end
                 pixeliReferintaRepl = repmat(pixeliReferinta, [dims N]);
                 
                 sumVector = params.pieseMozaic .* double(pixeliReferintaRepl);
-                if length(size(sumVector)) == 4
+                
+                if ~ (c==1)
                     sumVector = sum(sumVector);
                 end
                 
                 dotProduct = sum(sum(sumVector));
                 
-                distante = reshape(normaPiese, [N 1])  + repmat(normaPixeliReferinta, [N 1]) - reshape(2*dotProduct, [N 1]);
+                distante = normaPiese(:)  + repmat(normaPixeliReferinta, [N 1]) - 2*dotProduct(:);
                 
                 [~, indexMinim] = min(distante);
                 
