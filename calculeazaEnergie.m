@@ -18,6 +18,6 @@ xsobel = ysobel';
 xgradient = imfilter(double(grayImg), xsobel);
 ygradient = imfilter(double(grayImg), ysobel);
 
-E = sqrt((xgradient.^2) + (ygradient.^2));
+E = sqrt((xgradient.^2)) + sqrt((ygradient.^2));
 
 end
