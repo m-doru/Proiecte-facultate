@@ -1,6 +1,6 @@
 function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overlap)
-    eroriStanga = zeros(1,size(blocuri, 4), 'int64');
-    eroriSus = zeros(1,size(blocuri, 4), 'int64');
+    eroriStanga = zeros(1,size(blocuri, 4), 'double');
+    eroriSus = zeros(1,size(blocuri, 4), 'double');
     
     nrPixeliOverlapStanga = ceil(size(blocuri(:,:,:,1), 2)*overlap);
     nrPixeliOverlapSus = ceil(size(blocuri(:,:,:,1), 1)*overlap);

@@ -65,15 +65,15 @@ switch parametri.metodaSinteza
         indice = randi(nrBlocuri);
         imgSintetizataMaiMare(1:dimBloc, 1:dimBloc, :) = blocuri(:,:,:, indice);
         
-        nrPixeliOverlapStanga = ceil(size(blocuri(:,:,:,1), 2)*overlap);
-        nrPixeliOverlapSus = ceil(size(blocuri(:,:,:,1), 1)*overlap);
+        nrPixeliOverlapStanga = ceil(dimBloc*overlap);
+        nrPixeliOverlapSus = ceil(dimBloc*overlap);
         
         progresDreapta = dimBloc;
         for i = 2:nrBlocuriX
             vecin = imgSintetizataMaiMare(1:dimBloc,progresDreapta-dimBloc+1:progresDreapta, :);
             bloc = determinaBlocEroareMinima(vecin, NaN, blocuri, overlap);
             imgSintetizataMaiMare(1:dimBloc, progresDreapta-nrPixeliOverlapStanga+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = bloc;
-            progresDreapta = progresDreapta - nrPixeliOverlapStanga + 1 + dimBloc;
+            progresDreapta = progresDreapta - nrPixeliOverlapStanga+ dimBloc;
         end
         
         progresDreapta = 0;
@@ -93,10 +93,10 @@ switch parametri.metodaSinteza
                     bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overlap);
                     imgSintetizataMaiMare(progresJos+1-nrPixeliOverlapSus:progresJos+dimBloc-nrPixeliOverlapSus,...
                         progresDreapta+1-nrPixeliOverlapStanga:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = bloc;
-                    progresDreapta = progresDreapta - nrPixeliOverlapStanga + 1 + dimBloc;
+                    progresDreapta = progresDreapta - nrPixeliOverlapStanga + dimBloc;
                 end
             end
-            progresJos = progresJos - nrPixeliOverlapSus + 1 + dimBloc;
+            progresJos = progresJos - nrPixeliOverlapSus + dimBloc;
         end
         imgSintetizata = imgSintetizataMaiMare(1:size(imgSintetizata,1),1:size(imgSintetizata,2),:);
         
@@ -109,8 +109,33 @@ switch parametri.metodaSinteza
 	case 'frontieraCostMinim'
         %
         %completeaza imaginea de obtinut cu blocuri ales in functie de eroare de suprapunere + forntiera de cost minim
+        imgSintetizata = uint8(zeros(H2, W2, c));
+        [nrBlocuriX, nrBlocuriY, dimX, dimY] = determinaDimensiuni(imgSintetizata, dimBloc, overlap);
+        imgSintetizataMaiMare = uint8(zeros(dimX, dimY, 3));
         
-       
+        % completam primul rand
+        indice = randi(nrBlocuri);
+        imgSintetizataMaiMare(1:dimBloc, 1:dimBloc, :) = blocuri(:,:,:, indice);
+        
+        nrPixeliOverlapStanga = ceil(dimBloc*overlap);
+        nrPixeliOverlapSus = ceil(dimBloc*overlap);
+        
+        progresDreapta = dimBloc;
+        for i = 2:nrBlocuriX
+            vecin = imgSintetizataMaiMare(1:dimBloc,progresDreapta-dimBloc+1:progresDreapta, :);
+            bloc = determinaBlocEroareMinima(vecin, NaN, blocuri, overlap);
+            
+            overlapVecin = vecin(:, size(vecin, 2)-nrPixeliOverlapStanga + 1 : size(vecin,2), :);
+            overlapBloc = bloc(:, 1:nrPixeliOverlapStanga, :);
+            restBloc = bloc(:, nrPixeliOverlapStanga+1:end,:);
+            
+            overlapBlocuri = determinaOverlapCuFrontieraMinima(overlapVecin, overlapBloc);
+            
+            imgSintetizataMaiMare(1:dimBloc, progresDreapta-nrPixeliOverlapStanga+1:progresDreapta,:) = overlapBlocuri;
+            imgSintetizataMaiMare(1:dimBloc, progresDreapta+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = restBloc;
+            
+            progresDreapta = progresDreapta - nrPixeliOverlapStanga+ dimBloc;
+        end
 end
        
     
