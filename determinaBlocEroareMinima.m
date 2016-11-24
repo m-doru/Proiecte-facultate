@@ -1,4 +1,4 @@
-function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overlap)
+function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overlap, eroareTolerata)
     eroriStanga = zeros(1,size(blocuri, 4), 'double');
     eroriSus = zeros(1,size(blocuri, 4), 'double');
     
@@ -20,10 +20,26 @@ function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overla
         end
     end
     
-    eroareMedie = mean([eroriStanga;eroriSus]);
+    eroareTotala = eroriStanga + eroriSus;
     
-    [~, index] = min(eroareMedie);
+    [eroareMinima, ~] = min(eroareTotala);
     
-    bloc = blocuri(:,:,:,index);
+    eroareAcceptata = eroareMinima * (1+eroareTolerata);
+    
+    blocuriInEroareAcceptata = zeros(size(blocuri));
+    
+    i_blocuri = 1;
+    for i = 1:size(blocuri, 4)
+        eroareCurenta = eroareTotala(i);
+        if eroareCurenta <= eroareAcceptata
+            blocuriInEroareAcceptata(:,:,:, i_blocuri) = blocuri(:,:,:,i);
+            i_blocuri = i_blocuri + 1;
+        end
+    end
+    
+    i_blocuri = i_blocuri - 1;
+    index = randi(i_blocuri, 1);
+    
+    bloc = blocuriInEroareAcceptata(:,:,:,index);
     
 end
