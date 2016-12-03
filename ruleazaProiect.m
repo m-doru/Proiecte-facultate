@@ -1,9 +1,9 @@
 %citeste imaginea
-img = imread('../data/radishes.jpg');
+img = imread('../data/img5.png');
 %seteaza parametri
 parametri.texturaInitiala = img;
 parametri.dimensiuneTexturaSintetizata = [2*size(img,1) 2*size(img,2)];
-parametri.dimensiuneBloc = 55;
+parametri.dimensiuneBloc = 36;
 
 parametri.nrBlocuri = 2000;
 parametri.eroareTolerata = 0.1;

@@ -23,7 +23,7 @@ function bloc = determinaBlocEroareMinimaTransfer(vecinStanga, vecinSus, blocSur
     end
     
     eroareOverlap = eroriStanga + eroriSus;
-    eroriTotale = eroareOverlap.*tradeoff + eroriIntensitate.*(1-tradeoff);
+    eroriTotale = eroareOverlap.*tradeoff + (eroriIntensitate.^2).*(1-tradeoff);
     
     [eroareMinima, ~] = min(eroriTotale);
     

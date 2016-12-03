@@ -59,7 +59,7 @@ switch parametri.metodaSinteza
         %completeaza imaginea de obtinut cu blocuri ales in functie de eroare de suprapunere
         imgSintetizata = uint8(zeros(H2, W2, c));
         [nrBlocuriX, nrBlocuriY, dimX, dimY] = determinaDimensiuni(imgSintetizata, dimBloc, overlap);
-        imgSintetizataMaiMare = uint8(zeros(dimX, dimY, 3));
+        imgSintetizataMaiMare = uint8(zeros(dimX, dimY, c));
         
         % completam primul rand
         indice = randi(nrBlocuri);
@@ -69,7 +69,7 @@ switch parametri.metodaSinteza
         nrPixeliOverlapSus = ceil(dimBloc*overlap);
         
         progresDreapta = dimBloc;
-        for i = 2:nrBlocuriX
+        for i = 2:nrBlocuriY
             vecin = imgSintetizataMaiMare(1:dimBloc,progresDreapta-dimBloc+1:progresDreapta, :);
             bloc = determinaBlocEroareMinima(vecin, NaN, blocuri, overlap, parametri.eroareTolerata);
             imgSintetizataMaiMare(1:dimBloc, progresDreapta-nrPixeliOverlapStanga+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = bloc;
@@ -119,7 +119,7 @@ switch parametri.metodaSinteza
         %completeaza imaginea de obtinut cu blocuri alese in functie de eroare de suprapunere + forntiera de cost minim
         imgSintetizata = uint8(zeros(H2, W2, c));
         [nrBlocuriX, nrBlocuriY, dimX, dimY] = determinaDimensiuni(imgSintetizata, dimBloc, overlap);
-        imgSintetizataMaiMare = uint8(zeros(dimX, dimY, 3));
+        imgSintetizataMaiMare = uint8(zeros(dimX, dimY, c));
         
         % completam primul rand
         indice = randi(nrBlocuri);
@@ -143,8 +143,13 @@ switch parametri.metodaSinteza
 %             imgSintetizataMaiMare(1:dimBloc, progresDreapta+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = restBloc;
             
             imgSintetizataMaiMare(1:dimBloc, progresDreapta - nrPixeliOverlapStanga + 1 : progresDreapta + dimBloc-nrPixeliOverlapStanga, :) = [overlapBlocuri restBloc];
-            
+        
             progresDreapta = progresDreapta - nrPixeliOverlapStanga+ dimBloc;
+        
+            %----------------------
+            % debug
+            %----------------------
+            
         end
         
         
@@ -154,7 +159,7 @@ switch parametri.metodaSinteza
             %extragem vecin de deasupra
             vecin = imgSintetizataMaiMare(progresJos-dimBloc+1:progresJos, 1:dimBloc, :);
             %determinam bloc cu eroare in limita tolerata
-            bloc = determinaBlocEroareMinima(NaN, vecin, blocuri, overlap, parametri.eroareTolerata);
+            bloc = uint8(determinaBlocEroareMinima(NaN, vecin, blocuri, overlap, parametri.eroareTolerata));
 
             %extragem regiunile de overlap
             overlapVecin = vecin(size(vecin,1)-nrPixeliOverlapSus+1:size(vecin,1), :, :);
@@ -172,6 +177,10 @@ switch parametri.metodaSinteza
             imgSintetizataMaiMare(progresJos-nrPixeliOverlapSus+1:progresJos, 1:dimBloc, :) = overlapBlocuri;
             imgSintetizataMaiMare(progresJos+1:progresJos+dimBloc-nrPixeliOverlapSus, 1:dimBloc, :) = restBloc;
             progresDreapta = dimBloc;
+            
+            %----------------------
+            % debug
+            %----------------------
             
             for j = 2:nrBlocuriY
                 vecinStanga = imgSintetizataMaiMare(progresJos+1-nrPixeliOverlapSus:progresJos+dimBloc-nrPixeliOverlapSus,...
@@ -206,21 +215,11 @@ switch parametri.metodaSinteza
                 imgSintetizataMaiMare(progresJos-nrPixeliOverlapSus+1:progresJos+dimBloc-nrPixeliOverlapSus,...
                     progresDreapta-nrPixeliOverlapStanga+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = blocTerminat;
                 progresDreapta = progresDreapta + dimBloc - nrPixeliOverlapStanga;
-%                 %inseram blocul care se suprapune de 2 ori
-%                 imgSintetizataMaiMare(progresJos-nrPixeliOverlapSus+1:progresJos,...
-%                     progresDreapta-nrPixeliOverlapStanga+1:progresDreapta, :) = blocDubluOverlap;
-%                 %inseram portiunea overlap de la stanga
-%                 imgSintetizataMaiMare(progresJos+1:progresJos+dimBloc-nrPixeliOverlapSus,...
-%                     progresDreapta-nrPixeliOverlapStanga+1:progresDreapta, :) = overlapBlocuriStanga(nrPixeliOverlapSus+1:end, :, :);
-%                 %inseram portiunea overlap de sus
-%                 imgSintetizataMaiMare(progresJos-nrPixeliOverlapSus+1:progresJos,...
-%                     progresDreapta+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = overlapBlocuriSus(:, nrPixeliOverlapStanga+1:end, :);
-%                 
-%                 %copiem in imgSintetizataMaiMare restul blocului de adaugat
-%                 
-%                 imgSintetizataMaiMare(progresJos+1:progresJos+dimBloc-nrPixeliOverlapSus,...
-%                     progresDreapta+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) =...
-%                     bloc(nrPixeliOverlapSus+1:end, nrPixeliOverlapStanga+1:end, :);
+                
+                %----------------------
+                % debug
+                %----------------------
+                fprintf('Done %2.2f syntesizing \n', 100*(i*(nrBlocuriY-1) + j)/(nrBlocuriX*nrBlocuriY));
             end
             progresJos = progresJos + dimBloc - nrPixeliOverlapSus;
         end

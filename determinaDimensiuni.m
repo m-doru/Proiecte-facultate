@@ -9,10 +9,10 @@ function [ nrBlocuriX, nrBlocuriY, dimX, dimY ] = determinaDimensiuni(imgSinteti
     nrBlocuriX = ceil(h / (dimBloc * (1-overlap)));
     nrBlocuriY = ceil(w / (dimBloc * (1-overlap)));
 
-    dimX = dimBloc + nrBlocuriX * (ceil(dimBloc * (1-overlap)));
-    dimY = dimBloc + nrBlocuriY * (ceil(dimBloc * (1-overlap)));
+    dimX = 2*dimBloc + nrBlocuriX * (ceil(dimBloc * (1-overlap)));
+    dimY = 2*dimBloc + nrBlocuriY * (ceil(dimBloc * (1-overlap)));
     
-    nrBlocuriX = nrBlocuriX + 1;
-    nrBlocuriY = nrBlocuriY + 1;
+    nrBlocuriX = nrBlocuriX + 2;
+    nrBlocuriY = nrBlocuriY + 2;
     
 end

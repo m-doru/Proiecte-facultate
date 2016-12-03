@@ -28,7 +28,7 @@ end
 
 [nrBlocuriX, nrBlocuriY, dimX, dimY] = determinaDimensiuni(imgDestinatie, dimBloc, overlap);
 
-imgRezultat = uint8(zeros(dimX, dimY, size(imgDestinatie,3)));
+imgRezultat = uint8(zeros(dimX, dimY, size(parametri.texturaInitiala,3)));
 imgDestinatieMaiMare = imresize(imgDestinatie, [dimX, dimY]);
 % completam primul bloc din prima linie
 imgRezultat(1:dimBloc, 1:dimBloc, :) = determinaBlocEroareMinimaTransfer(NaN, NaN, ...
@@ -85,20 +85,28 @@ for i = 2:nrBlocuriX
     progresDreapta = dimBloc;
 
     for j = 2:nrBlocuriY
+        % determinam vecinii
         vecinStanga = imgRezultat(progresJos+1-nrPixeliOverlapSus:progresJos+dimBloc-nrPixeliOverlapSus,...
             progresDreapta-dimBloc+1:progresDreapta, :);
         vecinSus = imgRezultat(progresJos-dimBloc+1:progresJos,...
             progresDreapta-nrPixeliOverlapStanga+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :);
+        % extragem blocul corespunzator din imaginea destinatie
         blocDestinatie = imgDestinatieMaiMare(progresJos-nrPixeliOverlapSus+1:progresJos-nrPixeliOverlapSus+dimBloc,...
             progresDreapta-nrPixeliOverlapStanga+1:progresDreapta-nrPixeliOverlapStanga+dimBloc, :);
+        
+        % extragem regiunile de overlap ale vecinilor
         overlapVecinStanga = vecinStanga(1:end, end-nrPixeliOverlapStanga + 1 : end, :);
         overlapVecinSus = vecinSus(end-nrPixeliOverlapSus + 1:end, 1:end, :);
 
+        % determinam blocul cu eroare minima
         bloc = determinaBlocEroareMinimaTransfer(vecinStanga, vecinSus, blocDestinatie, blocuri, overlap, parametri.eroareTolerata, parametri.tradeoff);
 
+        % extragem regiunile de overlap din blocul determinam
         overlapBlocStanga = bloc(1:dimBloc, 1:nrPixeliOverlapStanga, :);
         overlapBlocSus = bloc(1:nrPixeliOverlapSus, 1:dimBloc, :);
 
+        % determinam regiunile de overlap dupa suprapunerea bazata pe ideea
+        % frontierei minime
         [overlapBlocuriStanga, drumStanga] = determinaOverlapCuFrontieraMinima(overlapVecinStanga, overlapBlocStanga);
         [overlapBlocuriSus, drumSus] = determinaOverlapCuFrontieraMinima(imrotate(overlapBlocSus, -90), imrotate(overlapVecinSus, -90));
         overlapBlocuriSus = imrotate(overlapBlocuriSus, 90);
@@ -106,18 +114,20 @@ for i = 2:nrBlocuriX
         %transpundem drumSus pe orizontala
         drumSus = transpunePeOrizontala(drumSus, size(overlapBlocuriSus, 1));
 
-        %determinam punctele la care se intersecteaza cele doua
-        %drumuri
+        % determinam patratul in care se suprapun regiunile de overlap ale
+        % celor 2 vecini
         blocDubluOverlap = determinaBlocDubluOverlap(overlapBlocuriStanga, drumStanga, overlapBlocuriSus, drumSus, nrPixeliOverlapStanga);
 
-        %inseram in imgSintetizataMaiMare cele 3 overlapuri
-
+        % cream blocul de inserat 
         blocTerminat = [blocDubluOverlap overlapBlocuriSus(:, nrPixeliOverlapStanga+1:end, :);...
                         overlapBlocuriStanga(nrPixeliOverlapSus+1:end, :, :) bloc(nrPixeliOverlapSus+1:end, nrPixeliOverlapStanga+1:end, :)];
 
+        % inseram blocul
         imgRezultat(progresJos-nrPixeliOverlapSus+1:progresJos+dimBloc-nrPixeliOverlapSus,...
             progresDreapta-nrPixeliOverlapStanga+1:progresDreapta+dimBloc-nrPixeliOverlapStanga, :) = blocTerminat;
         progresDreapta = progresDreapta + dimBloc - nrPixeliOverlapStanga;
+        debug_afiseaza_imagine(imgRezultat);
+        fprintf('Progres %2.2f done \n', single((i-1)*nrBlocuriY + j)/(nrBlocuriX*nrBlocuriY));
     end
     progresJos = progresJos + dimBloc - nrPixeliOverlapSus;
 end

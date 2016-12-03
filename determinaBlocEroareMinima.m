@@ -26,7 +26,7 @@ function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overla
     
     eroareAcceptata = eroareMinima * (1+eroareTolerata);
     
-    blocuriInEroareAcceptata = zeros(size(blocuri));
+    blocuriInEroareAcceptata = zeros(size(blocuri), 'uint8');
     
     i_blocuri = 1;
     for i = 1:size(blocuri, 4)
@@ -40,6 +40,6 @@ function bloc = determinaBlocEroareMinima(vecinStanga, vecinSus, blocuri, overla
     i_blocuri = i_blocuri - 1;
     index = randi(i_blocuri, 1);
     
-    bloc = blocuriInEroareAcceptata(:,:,:,index);
+    bloc = uint8(blocuriInEroareAcceptata(:,:,:,index));
     
 end
