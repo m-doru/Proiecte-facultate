@@ -11,6 +11,19 @@ function eticheta = clasificaBOVWCelMaiApropiatVecin(histogramaBOVW_test,histogr
 
   
 % completati codul
-...
-  
+k = size(histogrameBOVW_exemplePozitive, 1);
+distante_pozitive = zeros(1,k);
+distante_negative = zeros(1,k);
+for i = 1:k
+    distante_pozitive(i) = norm(histogramaBOVW_test-histogrameBOVW_exemplePozitive(i, :));
+    distante_negative(i) = norm(histogramaBOVW_test-histogrameBOVW_exempleNegative(i, :));
+end
+
+min_poz = min(distante_pozitive);
+min_neg = min(distante_negative);
+if min_poz <= min_neg
+    eticheta = 1;
+else
+    eticheta = 0;
+end
 end

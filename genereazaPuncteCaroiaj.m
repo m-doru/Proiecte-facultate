@@ -33,13 +33,13 @@ nrColoane = size(img, 2);
 nrLinii = nrLinii - 2*margine;
 nrColoane = nrColoane - 2*margine;
 
-dist_dr_vert = floor(nrColoane/(nrPuncteX - 1));
-dist_dr_oriz = floor(nrLinii/(nrPuncteY - 1));
+dist_dr_vert = floor(nrColoane/(nrPuncteY - 1));
+dist_dr_oriz = floor(nrLinii/(nrPuncteX - 1));
 
-pixeliRamasiX = floor((nrColoane - dist_dr_vert*(nrPuncteX-1))/2);
-pixeliRamasiY = floor((nrColoane - dist_dr_oriz*(nrPuncteY-1))/2);
+pixeliRamasiX = floor((nrLinii - dist_dr_oriz*(nrPuncteX-1))/2);
+pixeliRamasiY = floor((nrColoane - dist_dr_vert*(nrPuncteY-1))/2);
 
-punct_start = [margine+pixeliRamasiY, margine+pixeliRamasiX];
+punct_start = [margine+pixeliRamasiX, margine+pixeliRamasiY];
 
 for i = 1:nrPuncteY
     for j = 1:nrPuncteX
@@ -47,7 +47,7 @@ for i = 1:nrPuncteY
         punct_start(2) = punct_start(2) + dist_dr_vert;
     end
     punct_start(1) = punct_start(1) + dist_dr_oriz;
-    punct_start(2) = margine + pixeliRamasiX;
+    punct_start(2) = margine + pixeliRamasiY;
 end
 
 

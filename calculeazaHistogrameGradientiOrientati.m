@@ -44,18 +44,29 @@ orientare = orientare + 90; %unghiuri intre 0 si 180 grade
 %completati codul
 
 for i = 1:size(puncte, 1)
+    % punctul curent 
     punct = puncte(i, :);
-    patch = getPatch(img, dimensiuneCelula, punct);
-    orientariPatch = getPatch(orientare, dimensiuneCelula, punct);
+    % patch-ul corespunzator punctului curent
+    patch = extragePatch(img, dimensiuneCelula*dimensiuneCelula, punct);
     patchuri(i,:) = patch(:);
+    % gradientii orientati patch-ului curent
+    orientarePatch = extragePatch(orientare, dimensiuneCelula*dimensiuneCelula, punct);
     descriptor = zeros(1,128);
-    for j = 1:16
-        orientariCelula = getCelula(orientariPatch, dimensiuneCelula, j);
-        [freq, ~] = hist(orientariCelula(:), 8);
-        descriptor((j-1)*8:j*8) = freq;
+    
+    % punctul din patch corespunzator celulei curent
+    % folosit pentru a utiliza aceeasi functie getPatch
+    pct = [floor(dimensiuneCelula/2), floor(dimensiuneCelula/2)];
+    for j = 1:4
+        for k = 1:4
+            orientareCelula = extragePatch(orientarePatch, dimensiuneCelula, pct);
+            [freq, ~] = histcounts(orientareCelula(:), linspace(0,180, 9));
+            descriptor((j-1)*8+1:j*8) = freq;
+            pct(2) = pct(2) + dimensiuneCelula;
+        end
+        pct(1) = pct(1) + dimensiuneCelula;
+        pct(2) = floor(dimensiuneCelula/2);
     end
     descriptoriHOG(i, :) = descriptor;
-    
 end
     
 end

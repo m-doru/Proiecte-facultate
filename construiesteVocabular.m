@@ -29,17 +29,17 @@ function cuvinteVizuale = construiesteVocabular(numeDirector,k,iterMax)
 
     % genereaza puncte caroiaj
     % completati codul aici
-    ...
-    puncteCaroiaj = genereazaPuncteCaroiaj(img, nrPuncteX, nrPuncteY, margine);
+    puncte = genereazaPuncteCaroiaj(img, nrPuncteX, nrPuncteY, margine);
+    
     % calculeaza descriptorul HOG si patch-ul coespunzator pt fiecare
     % punct de pe caroiaj
     % completati codul aici
-    ...
-        
+    [descriptoriHOGCrt, patchuriCrt] = calculeazaHistogrameGradientiOrientati(img, puncte, dimensiuneCelula);
+    
     % pune in descriptoriHOG si patchuri ce ai calculat
-    % completati codul aici
-    ...
-        
+    % completati codul aici - se concateneaza
+    descriptoriHOG = [descriptoriHOG; descriptoriHOGCrt];
+    patchuri = [patchuri; patchuriCrt];
   end
   
   disp([' Am extras un numar de ' num2str(size(descriptoriHOG,1)) ' histograme de gradienti orientati']);
@@ -49,8 +49,8 @@ function cuvinteVizuale = construiesteVocabular(numeDirector,k,iterMax)
   cuvinteVizuale = kmeans_iter(descriptoriHOG, k, iterMax);
     
   % vizualizare vocabularul vizual
-  disp(' Vizualizam vocabularul vizual ...');
-  vizualizeazaVocabular(cuvinteVizuale,descriptoriHOG,patchuri,dimensiuneCelula);
-  disp(' Apasati o tasta pentru a continua ...');
-  pause;   
+%   disp(' Vizualizam vocabularul vizual ...');
+%   vizualizeazaVocabular(cuvinteVizuale,descriptoriHOG,patchuri,dimensiuneCelula);
+%   disp(' Apasati o tasta pentru a continua ...');
+%   pause;   
 end

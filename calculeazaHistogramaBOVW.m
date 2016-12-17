@@ -10,6 +10,17 @@ function histogramaBOVW = calculeazaHistogramaBOVW(descriptoriHOG, cuvinteVizual
   %   histogramaBOVW: vector linie 1xN 
   
  % completati codul
- ...
-     
+    m = size(descriptoriHOG, 1);
+    d = size(descriptoriHOG, 2);
+    n = size(cuvinteVizuale, 1);
+    histogramaBOVW = zeros(1, n);
+    for i = 1:m
+        descriptor = descriptoriHOG(i, :);
+        distante = zeros(1, n);
+        for j = 1:n
+            distante(j) = norm(descriptor-cuvinteVizuale(j,:));
+        end
+        [~, minIdx] = min(distante);
+        histogramaBOVW(minIdx) = histogramaBOVW(minIdx) + 1;
+    end
 end

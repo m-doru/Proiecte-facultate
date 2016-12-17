@@ -26,16 +26,16 @@ function histogrameBOVW = calculeazaHistogrameBOVW_director(numeDirector, cuvint
 
     % genereaza puncte pe un caroiaj pentru fiecare imagine    
     % completati codul
-    ...
+    puncte = genereazaPuncteCaroiaj(img, nrPuncteX, nrPuncteY, margine);
     
     % calculeaza descriptorul HOG pentru fiecare punct
     % completati codul
-    ...
+    [descriptoriHOG, ~] = calculeazaHistogrameGradientiOrientati(img, puncte, dimensiuneCelula);
         
     % calculeaza histograma BOW asociata    
     % completati codul
-    ...
-        
+    histogramaBOVW = calculeazaHistogramaBOVW(descriptoriHOG, cuvinteVizuale);
+    histogrameBOVW(i, :) = histogramaBOVW;
   end;
     
 end
