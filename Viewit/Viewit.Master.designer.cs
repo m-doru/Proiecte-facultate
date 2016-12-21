@@ -13,13 +13,13 @@ namespace Viewit {
     public partial class Viewit {
         
         /// <summary>
-        /// head control.
+        /// Head control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Head;
         
         /// <summary>
         /// MasterForm control.
@@ -31,30 +31,39 @@ namespace Viewit {
         protected global::System.Web.UI.HtmlControls.HtmlForm MasterForm;
         
         /// <summary>
-        /// CenterPlaceHolder control.
+        /// Top control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder CenterPlaceHolder;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Top;
         
         /// <summary>
-        /// LeftPlaceHolder control.
+        /// Main control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder LeftPlaceHolder;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Main;
         
         /// <summary>
-        /// RightPlaceHolder control.
+        /// Left control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder RightPlaceHolder;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Left;
+        
+        /// <summary>
+        /// Right control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Right;
     }
 }

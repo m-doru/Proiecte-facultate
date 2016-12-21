@@ -4,24 +4,29 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
+    <title>Viewit</title>
+    <asp:ContentPlaceHolder ID="Head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="MasterForm" runat="server">
-    <div>
-        <asp:ContentPlaceHolder id="CenterPlaceHolder" runat="server">
-        
-        </asp:ContentPlaceHolder>
-    </div>
-    <div>
-        <asp:ContentPlaceHolder id="LeftPlaceHolder" runat="server">
+    <div class="center">
+        <asp:ContentPlaceHolder id="Top" runat="server">
 
         </asp:ContentPlaceHolder>
     </div>
-    <div>
-        <asp:ContentPlaceHolder id="RightPlaceHolder" runat="server">
+    <div class="center">
+        <asp:ContentPlaceHolder id="Main" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    <div class="left">
+        <asp:ContentPlaceHolder id="Left" runat="server">
+
+        </asp:ContentPlaceHolder>
+    </div>
+    <div class="right">
+        <asp:ContentPlaceHolder id="Right" runat="server">
 
         </asp:ContentPlaceHolder>
     </div>
