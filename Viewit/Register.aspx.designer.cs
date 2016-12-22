@@ -22,13 +22,13 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.Label CalendarChanged;
         
         /// <summary>
-        /// User control.
+        /// Username control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox User;
+        protected global::System.Web.UI.WebControls.TextBox Username;
         
         /// <summary>
         /// UserRequired control.
@@ -76,13 +76,13 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator LastNameRequired;
         
         /// <summary>
-        /// Pass control.
+        /// Password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Pass;
+        protected global::System.Web.UI.WebControls.TextBox Password;
         
         /// <summary>
         /// PasswordRequired control.
@@ -94,13 +94,13 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator PasswordRequired;
         
         /// <summary>
-        /// PassSecond control.
+        /// PasswordSecond control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox PassSecond;
+        protected global::System.Web.UI.WebControls.TextBox PasswordSecond;
         
         /// <summary>
         /// PasswordRequiredSecond control.

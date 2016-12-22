@@ -8,7 +8,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="TopContent" ContentPlaceHolderID="Top" runat="server">
-    <h2 class="center">Fill the following forms to create an account</h2>
+    <h2>Fill the following forms to create an account</h2>
     <asp:Label ID="CalendarChanged" runat="server"/>
 </asp:Content>
 <asp:Content ID="MainContent" ContentPlaceHolderID="Main" runat="server">
@@ -16,11 +16,11 @@
        <tr>
              <td>Username</td>
              <td>
-                 <asp:TextBox ID="User" runat="server"></asp:TextBox>
+                 <asp:TextBox ID="Username" runat="server"></asp:TextBox>
              </td>
              <td>
                  <asp:RequiredFieldValidator ID="UserRequired" runat="server" 
-                     ControlToValidate="User" ErrorMessage="Username not inserted"></asp:RequiredFieldValidator>
+                     ControlToValidate="Username" ErrorMessage="Username not inserted"></asp:RequiredFieldValidator>
              </td>
        </tr>
         <tr>
@@ -46,23 +46,23 @@
        <tr>
              <td>Password</td>
              <td>
-                 <asp:TextBox ID="Pass" runat="server" TextMode="Password"></asp:TextBox>
+                 <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
              </td>
              <td>
                  <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" 
-                     ControlToValidate="Pass" ErrorMessage="Password not inserted"></asp:RequiredFieldValidator>
+                     ControlToValidate="Password" ErrorMessage="Password not inserted"></asp:RequiredFieldValidator>
              </td>
        </tr>
        <tr>
              <td>Retype password</td>
              <td>
-                 <asp:TextBox ID="PassSecond" runat="server" TextMode="Password"></asp:TextBox>
+                 <asp:TextBox ID="PasswordSecond" runat="server" TextMode="Password"></asp:TextBox>
              </td>
              <td>
                  <asp:RequiredFieldValidator ID="PasswordRequiredSecond" runat="server" 
-                     ControlToValidate="PassSecond" ErrorMessage="Validation password not inserted"></asp:RequiredFieldValidator>
+                     ControlToValidate="PasswordSecond" ErrorMessage="Validation password not inserted"></asp:RequiredFieldValidator>
                  <asp:CompareValidator ID="PasswordsNotMatch" runat="server" 
-                     ControlToCompare="Pass" ControlToValidate="PassSecond" 
+                     ControlToCompare="Password" ControlToValidate="PasswordSecond" 
                      ErrorMessage="Passwords do not match!"></asp:CompareValidator>
              </td>
        </tr>
@@ -116,6 +116,8 @@
     </table>
 </asp:Content>
 <asp:Content ID="LeftContent" ContentPlaceHolderID="Left" runat="server">
+    CEVA DE PUS LA STANGA
 </asp:Content>
 <asp:Content ID="RightContent" ContentPlaceHolderID="Right" runat="server">
+    CEVA DE PUS LA DREAPTA
 </asp:Content>
