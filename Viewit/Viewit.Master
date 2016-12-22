@@ -4,25 +4,29 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link rel="stylesheet" href="CSS/MasterPage.css" type="text/css"/>
     <title>Viewit</title>
     <asp:ContentPlaceHolder ID="Head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="MasterForm" runat="server">
-    <div class="center">
+    <div class="top">
+        <asp:TextBox ID="SearchTextBox" placeholder="Search image" runat="server"/>
+        <asp:Button ID="SearchButton" runat="server" Text="Search"/>
         <asp:ContentPlaceHolder id="Top" runat="server">
+
+        </asp:ContentPlaceHolder>
+    </div>
+    <br style="clear:both"/>
+    <div class="left">
+        <asp:ContentPlaceHolder id="Left" runat="server">
 
         </asp:ContentPlaceHolder>
     </div>
     <div class="center">
         <asp:ContentPlaceHolder id="Main" runat="server">
         
-        </asp:ContentPlaceHolder>
-    </div>
-    <div class="left">
-        <asp:ContentPlaceHolder id="Left" runat="server">
-
         </asp:ContentPlaceHolder>
     </div>
     <div class="right">
