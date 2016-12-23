@@ -66,7 +66,7 @@ namespace Viewit
             Session["username"] = Username.Text;
             Session["password"] = Password.Text;
 
-            Response.Redirect(string.Format("Profile.aspx/username={0}", Username.Text));
+            Response.Redirect(string.Format("Profile.aspx?username={0}", Username.Text));
 
         }
         #region Validity checks
@@ -87,10 +87,11 @@ namespace Viewit
 
             if (results.Read())
             {
+                results.Close();
                 conn.Close();
                 return false;
             }
-
+            results.Close();
             conn.Close();
             return true;
         }

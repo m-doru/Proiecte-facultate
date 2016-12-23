@@ -5,6 +5,8 @@
 <asp:Content ID="TopContent" ContentPlaceHolderID="Top" runat="server">
     <h2>Insert account credentials</h2>
 </asp:Content>
+<asp:Content ID="LeftContent" ContentPlaceHolderID="Left" runat="server">
+</asp:Content>
 <asp:Content ID="MainContent" ContentPlaceHolderID="Main" runat="server">
     <asp:Panel ID="LoginPanel" DefaultButton="LoginSubmitButton" runat="server">
     <table>
@@ -52,8 +54,6 @@
        </tr>
     </table>
     </asp:Panel>
-</asp:Content>
-<asp:Content ID="LeftContent" ContentPlaceHolderID="Left" runat="server">
 </asp:Content>
 <asp:Content ID="RightContent" ContentPlaceHolderID="Right" runat="server">
 </asp:Content>

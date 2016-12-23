@@ -30,7 +30,7 @@ namespace Viewit
                 return;
             }
             Session["username"] = Username.Text;
-            Response.Redirect(string.Format("Profile.aspx/username={0}", Username.Text));
+            Response.Redirect(string.Format("Profile.aspx?username={0}", Username.Text));
 
         }
         private enum LoginResult { Unregistered, WrongPassword, Success }
@@ -38,7 +38,7 @@ namespace Viewit
         private LoginResult UsernameRegistered()
         {
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            string selectTxt = "SELECT id FROM users WHERE LOWER(username) LIKE @user";
+            string selectTxt = "SELECT id FROM users WHERE LOWER(username) LIKE LOWER(@user)";
 
             conn.Open();
 

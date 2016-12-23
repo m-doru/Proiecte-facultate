@@ -14,25 +14,17 @@
     <div class="top">
         <asp:TextBox ID="SearchTextBox" placeholder="Search image" runat="server"/>
         <asp:Button ID="SearchButton" runat="server" Text="Search"/>
-        <asp:ContentPlaceHolder id="Top" runat="server">
-
-        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder id="Top" runat="server"></asp:ContentPlaceHolder>
     </div>
     <br style="clear:both"/>
     <div class="left">
-        <asp:ContentPlaceHolder id="Left" runat="server">
-
-        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder id="Left" runat="server"></asp:ContentPlaceHolder>
     </div>
     <div class="center">
-        <asp:ContentPlaceHolder id="Main" runat="server">
-        
-        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder id="Main" runat="server"></asp:ContentPlaceHolder>
     </div>
     <div class="right">
-        <asp:ContentPlaceHolder id="Right" runat="server">
-
-        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="Right" runat="server"></asp:ContentPlaceHolder>
     </div>
     </form>
 </body>
