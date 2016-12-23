@@ -1,15 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Viewit.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Viewit.Register" %>
+﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Viewit.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Viewit.Register" %>
 <asp:Content ID="HeadContent" ContentPlaceHolderID="Head" runat="server">
-    <script language="C#" runat="server">
-        void Selection_Change(Object sender, EventArgs e)
-        {
-            CalendarChanged.Text = BirthdayCalendar.SelectedDate.ToShortDateString();
-        }
-    </script>
+    
 </asp:Content>
 <asp:Content ID="TopContent" ContentPlaceHolderID="Top" runat="server">
     <h2>Fill the following forms to create an account</h2>
-    <asp:Label ID="CalendarChanged" runat="server"/>
 </asp:Content>
 <asp:Content ID="MainContent" ContentPlaceHolderID="Main" runat="server">
     <table>
@@ -82,22 +76,37 @@
              </td>
        </tr>
         <tr>
+            <asp:ScriptManager ID="BirthdayScriptManager" runat="server">
+            </asp:ScriptManager>
             <td>Birthday</td>
             <td>
-                Year
-                <asp:DropDownList id="drpCalYear" Runat="Server" OnSelectedIndexChanged="Set_Calendar" AutoPostBack="true"></asp:DropDownList>
-                Month
-                <asp:DropDownList id="drpCalMonth" Runat="Server" OnSelectedIndexChanged="Set_Calendar" AutoPostBack="true"></asp:DropDownList>
-
+            <asp:UpdatePanel ID="YearMonthUpdatePanel" runat="server">
+                <ContentTemplate>
+                    <fieldset>
+                        Year
+                        <asp:DropDownList id="drpCalYear" Runat="Server" OnSelectedIndexChanged="Set_Calendar" AutoPostBack="true"></asp:DropDownList>
+                        Month
+                        <asp:DropDownList id="drpCalMonth" Runat="Server" OnSelectedIndexChanged="Set_Calendar" AutoPostBack="true"></asp:DropDownList>
+                    </fieldset>
+                </ContentTemplate>
+            </asp:UpdatePanel>
             </td>
             <td>
-                <asp:Calendar ID="BirthdayCalendar" runat="server"></asp:Calendar>
+                
+                <asp:UpdatePanel ID="CalendarUpdatePanel" runat="server">
+                <ContentTemplate>
+                    <fieldset>
+                        <asp:Calendar ID="BirthdayCalendar" runat="server"></asp:Calendar>
+                    </fieldset>
+                </ContentTemplate>
+        </asp:UpdatePanel>    
             </td>
+            
         </tr>
        <tr>
              <td></td>
              <td>
-                 <asp:Button ID="RegisterSubmitButton" runat="server" Text="Submit" onclick="RegisterSubmitClick" />
+                 <asp:Button ID="RegisterSubmitButton" runat="server" Text="Register" onclick="RegisterSubmitClick" />
              </td>
              <td>
                  <asp:ValidationSummary ID="RegisterSummery" runat="server" />
@@ -116,8 +125,6 @@
     </table>
 </asp:Content>
 <asp:Content ID="LeftContent" ContentPlaceHolderID="Left" runat="server">
-    CEVA DE PUS LA STANGA
 </asp:Content>
 <asp:Content ID="RightContent" ContentPlaceHolderID="Right" runat="server">
-    CEVA DE PUS LA DREAPTA
 </asp:Content>

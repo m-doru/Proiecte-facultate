@@ -13,15 +13,6 @@ namespace Viewit {
     public partial class Register {
         
         /// <summary>
-        /// CalendarChanged control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CalendarChanged;
-        
-        /// <summary>
         /// Username control.
         /// </summary>
         /// <remarks>
@@ -148,6 +139,24 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.RegularExpressionValidator InvalidEmail;
         
         /// <summary>
+        /// BirthdayScriptManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager BirthdayScriptManager;
+        
+        /// <summary>
+        /// YearMonthUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel YearMonthUpdatePanel;
+        
+        /// <summary>
         /// drpCalYear control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,15 @@ namespace Viewit {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drpCalMonth;
+        
+        /// <summary>
+        /// CalendarUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel CalendarUpdatePanel;
         
         /// <summary>
         /// BirthdayCalendar control.

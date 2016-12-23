@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.UI.WebControls;
+using Viewit.App_Code;
 
 namespace Viewit
 {
@@ -37,7 +36,7 @@ namespace Viewit
             }
 
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            string insertTxt = "insert into users(user_name, first_name, last_name, email, password, birthday, is_admin) " +
+            string insertTxt = "insert into users(username, first_name, last_name, email, password, birthday, is_admin) " +
                 "values(@User, @First, @Last, @Email, @Pass, @Birth, @IsAdmin)";
 
             SqlCommand insertCmd = new SqlCommand(insertTxt, conn);
@@ -54,7 +53,7 @@ namespace Viewit
             insertCmd.Parameters["@First"].Value = FirstName.Text;
             insertCmd.Parameters["@Last"].Value = LastName.Text;
             insertCmd.Parameters["@Email"].Value = Email.Text;
-            insertCmd.Parameters["@Pass"].Value = HashPassword(Password.Text);
+            insertCmd.Parameters["@Pass"].Value = AuthenticationUtilities.HashPassword(Password.Text);
             insertCmd.Parameters["@Birth"].Value = BirthdayCalendar.SelectedDate;
             insertCmd.Parameters["@IsAdmin"].Value = 0;
 
@@ -68,7 +67,7 @@ namespace Viewit
             Session["password"] = Password.Text;
 
             Response.Redirect(string.Format("Profile.aspx/username={0}", Username.Text));
-            
+
         }
         #region Validity checks
         private bool UsernameAvailable()
@@ -121,8 +120,8 @@ namespace Viewit
         }
         private bool RegistrationFieldsValid()
         {
-           
-            if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text) &&
+
+            if (!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text) &&
             !string.IsNullOrEmpty(PasswordSecond.Text) && !string.IsNullOrEmpty(Email.Text) &&
             !string.IsNullOrEmpty(FirstName.Text) && !string.IsNullOrEmpty(LastName.Text) &&
             PasswordSecond.Text == Password.Text && !string.IsNullOrEmpty(BirthdayCalendar.SelectedDate.ToShortDateString()))
@@ -132,12 +131,7 @@ namespace Viewit
             return false;
         }
         #endregion
-        public static string HashPassword(string password)
-        {
-            var provider = new SHA256CryptoServiceProvider();
-            var encoding = new UnicodeEncoding();
-            return Convert.ToBase64String(provider.ComputeHash(encoding.GetBytes(password)));
-        }
+
         #region YearMonthPopulation
         protected void Populate_MonthList()
         {
