@@ -59,7 +59,7 @@ namespace Viewit
 
             int lastAppendedImage = (int)Session["LastAppendedImg"];
             int profileUserId = App_Code.SqlUtilities.GetUserId(profileUser);
-            List<App_Code.Image> images = App_Code.SqlUtilities.GetImagesOrderedByDate(profileUserId, lastAppendedImage, lastAppendedImage + NR_OF_APPENDED_IMAGES);
+            List<App_Code.Image> images = App_Code.SqlUtilities.GetImagesOrderedByDate(profileUserId, 0, lastAppendedImage + NR_OF_APPENDED_IMAGES);
 
             foreach (App_Code.Image img in images)
             {
