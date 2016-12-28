@@ -18,3 +18,15 @@
     position:static;
     text-align:center;
 }
+
+#ThumbnailsHolder{
+    display:block;
+    vertical-align:middle; 
+}
+
+.thumbnails{
+    display:block;
+    position:absolute;
+    margin: 0 auto;
+    align-self:center;
+}
