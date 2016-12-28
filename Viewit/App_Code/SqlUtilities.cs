@@ -125,7 +125,7 @@ namespace Viewit.App_Code
             conn.Open();
             string selectTxt = "SELECT id, path, upload_date, description, city, country "
                     + " FROM (SELECT ROW_NUMBER() OVER (ORDER BY upload_date) AS RowNum, id, path, upload_date, description, city, country FROM images WHERE uploader_id = @id) i"
-                    + " WHERE i.RowNum > @first AND i.RowNum < @last";
+                    + " WHERE i.RowNum >= @first AND i.RowNum <= @last";
 
             SqlCommand cmd = new SqlCommand(selectTxt, conn);
 
