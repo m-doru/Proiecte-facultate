@@ -10,87 +10,60 @@
 namespace Viewit {
     
     
-    public partial class Viewit {
+    public partial class Profile {
         
         /// <summary>
-        /// Head control.
+        /// UserGreeting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Head;
+        protected global::System.Web.UI.WebControls.Label UserGreeting;
         
         /// <summary>
-        /// MasterForm control.
+        /// UserAlbumsList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm MasterForm;
+        protected global::System.Web.UI.WebControls.BulletedList UserAlbumsList;
         
         /// <summary>
-        /// SearchTextBox control.
+        /// UserImagesScriptManger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SearchTextBox;
+        protected global::System.Web.UI.ScriptManager UserImagesScriptManger;
         
         /// <summary>
-        /// SearchButton control.
+        /// UserImagesPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button SearchButton;
+        protected global::System.Web.UI.UpdatePanel UserImagesPanel;
         
         /// <summary>
-        /// Top control.
+        /// ThumbnailsHolder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Top;
+        protected global::System.Web.UI.WebControls.Panel ThumbnailsHolder;
         
         /// <summary>
-        /// Left control.
+        /// LoadMoreImagesButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Left;
-        
-        /// <summary>
-        /// Main control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Main;
-        
-        /// <summary>
-        /// MainScriptManager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.ScriptManager MainScriptManager;
-        
-        /// <summary>
-        /// Right control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Right;
+        protected global::System.Web.UI.WebControls.Button LoadMoreImagesButton;
     }
 }

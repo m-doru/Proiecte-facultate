@@ -22,6 +22,15 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.FileUpload UploadContainer;
         
         /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        
+        /// <summary>
         /// ImageDescription control.
         /// </summary>
         /// <remarks>
@@ -76,13 +85,13 @@ namespace Viewit {
         protected global::System.Web.UI.WebControls.CheckBoxList UserAlbums;
         
         /// <summary>
-        /// SearchTextBox control.
+        /// NewAlbumName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SearchTextBox;
+        protected global::System.Web.UI.WebControls.TextBox NewAlbumName;
         
         /// <summary>
         /// UploadButton control.

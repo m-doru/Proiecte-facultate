@@ -36,18 +36,21 @@ namespace Viewit
                     return;
                 }
 
-                string randomString = RandomUtils.RandomString(20);
+                string randomString = RandomUtils.RandomString(10);
 
-                UploadContainer.PostedFile.SaveAs(Server.MapPath(serverFilePath + randomString));
+                string fullPath = serverFilePath + randomString + filename;
 
-                SqlUtilities.InsertIntoImages(username, serverFilePath + randomString);
+                UploadContainer.PostedFile.SaveAs(Server.MapPath(fullPath));
 
-                UpdateSelectedCategories(serverFilePath + randomString);
+                int imgId = SqlUtilities.InsertIntoImages(username, fullPath, ImageDescription.Text, ImageCity.Text, ImageCountry.Text);
 
-                Response.Redirect("Image.aspx?username=" + username + "image=" + imgId);
+                ConnectWithSelectedCategories(fullPath);
+                ConnectWithSelectedAlbums(fullPath);
+
+                Response.Redirect("Image.aspx?image=" + imgId);
             }
         }
-        private void UpdateSelectedCategories(string imgPath)
+        private void ConnectWithSelectedCategories(string imgPath)
         {
             int imgId = SqlUtilities.GetImageId(imgPath);
 
@@ -61,7 +64,7 @@ namespace Viewit
             }
         }
 
-        private void UpdateSelectedAlbums(string imgPath)
+        private void ConnectWithSelectedAlbums(string imgPath)
         {
             int imgId = SqlUtilities.GetImageId(imgPath);
             foreach (ListItem item in UserAlbums.Items)
@@ -69,6 +72,10 @@ namespace Viewit
                 int albumId;
                 if (item.Selected && int.TryParse(item.Value, out albumId))
                 {
+                    if (albumId == -1)
+                    {
+                        albumId = SqlUtilities.InsertIntoAlbums(NewAlbumName.Text, (string)Session["username"]);
+                    }
                     SqlUtilities.InsertIntoIncludedIn(imgId, albumId);
                 }
             }
@@ -114,7 +121,9 @@ namespace Viewit
             }
             result.Close();
             conn.Close();
-            UserAlbums.Items.Add("New album");
+            int newAlbumValue = -1;
+            ListItem lastItem = new ListItem("New album", newAlbumValue.ToString());
+            UserAlbums.Items.Add(lastItem);
         }
         #endregion
         #region Utilities

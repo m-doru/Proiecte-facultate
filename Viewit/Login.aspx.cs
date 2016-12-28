@@ -9,6 +9,11 @@ namespace Viewit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["username"] != null && !string.IsNullOrEmpty((string)Session["username"]))
+            {
+                string username = (string)Session["username"];
+                Response.Redirect("Profile.aspx?username=" + username);
+            }
             PageMessage.Text = "Welcome";
         }
         public void LoginSubmitClick(object sender, EventArgs e)

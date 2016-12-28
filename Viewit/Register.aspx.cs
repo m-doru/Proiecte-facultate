@@ -10,6 +10,11 @@ namespace Viewit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["username"] != null && !string.IsNullOrEmpty((string)Session["username"]))
+            {
+                string username = (string)Session["username"];
+                Response.Redirect("Profile.aspx?username=" + username);
+            }
             if (!IsPostBack)
             {
                 Populate_MonthList();
@@ -35,33 +40,7 @@ namespace Viewit
                 return;
             }
 
-            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            string insertTxt = "insert into users(username, first_name, last_name, email, password, birthday, is_admin) " +
-                "values(@User, @First, @Last, @Email, @Pass, @Birth, @IsAdmin)";
-
-            SqlCommand insertCmd = new SqlCommand(insertTxt, conn);
-
-            insertCmd.Parameters.Add(new SqlParameter("@User", TypeCode.String));
-            insertCmd.Parameters.Add(new SqlParameter("@First", TypeCode.String));
-            insertCmd.Parameters.Add(new SqlParameter("@Last", TypeCode.String));
-            insertCmd.Parameters.Add(new SqlParameter("@Email", TypeCode.String));
-            insertCmd.Parameters.Add(new SqlParameter("@Pass", TypeCode.String));
-            insertCmd.Parameters.Add(new SqlParameter("@Birth", TypeCode.DateTime));
-            insertCmd.Parameters.Add(new SqlParameter("@IsAdmin", System.Data.SqlDbType.Bit));
-
-            insertCmd.Parameters["@User"].Value = Username.Text;
-            insertCmd.Parameters["@First"].Value = FirstName.Text;
-            insertCmd.Parameters["@Last"].Value = LastName.Text;
-            insertCmd.Parameters["@Email"].Value = Email.Text;
-            insertCmd.Parameters["@Pass"].Value = AuthenticationUtilities.HashPassword(Password.Text);
-            insertCmd.Parameters["@Birth"].Value = BirthdayCalendar.SelectedDate;
-            insertCmd.Parameters["@IsAdmin"].Value = 0;
-
-            conn.Open();
-
-            insertCmd.ExecuteNonQuery();
-
-            conn.Close();
+            SqlUtilities.InsertIntoUsers(Username.Text, FirstName.Text, LastName.Text, Email.Text, BirthdayCalendar.SelectedDate, Password.Text, false);
 
             Session["username"] = Username.Text;
             Session["password"] = Password.Text;

@@ -15,6 +15,8 @@
             </td>
             <td>
 
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="UploadContainer" ErrorMessage="Do not forget the file"></asp:RequiredFieldValidator>
+
             </td>
         </tr>
         <tr>
@@ -64,7 +66,7 @@
                 </div>
             </td>
             <td>
-                <asp:TextBox ID="SearchTextBox" placeholder="New album name" runat="server"/>
+                <asp:TextBox ID="NewAlbumName" placeholder="New album name" runat="server"/>
             </td>
         </tr>
         <tr>

@@ -8,6 +8,7 @@
     <title>Viewit</title>
     <asp:ContentPlaceHolder ID="Head" runat="server">
     </asp:ContentPlaceHolder>
+
 </head>
 <body>
     <form id="MasterForm" runat="server">
@@ -21,7 +22,9 @@
         <asp:ContentPlaceHolder id="Left" runat="server"></asp:ContentPlaceHolder>
     </div>
     <div class="center">
-        <asp:ContentPlaceHolder id="Main" runat="server"></asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder id="Main" runat="server">
+            <asp:ScriptManager ID="MainScriptManager" runat="server" EnablePageMethods="true" />
+        </asp:ContentPlaceHolder>
     </div>
     <div class="right">
         <asp:ContentPlaceHolder ID="Right" runat="server"></asp:ContentPlaceHolder>

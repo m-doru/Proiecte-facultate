@@ -76,8 +76,7 @@
              </td>
        </tr>
         <tr>
-            <asp:ScriptManager ID="BirthdayScriptManager" runat="server">
-            </asp:ScriptManager>
+            <asp:ScriptManager ID="BirthdayScriptManager" runat="server"></asp:ScriptManager>
             <td>Birthday</td>
             <td>
             <asp:UpdatePanel ID="YearMonthUpdatePanel" runat="server">
