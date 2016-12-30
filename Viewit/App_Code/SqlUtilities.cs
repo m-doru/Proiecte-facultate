@@ -149,6 +149,106 @@ namespace Viewit.App_Code
             conn.Close();
             return images;
         }
+
+        public static List<Image> GetAlbumImagesOrderedByDate(int albumId, int first, int last)
+        {
+            List<Image> images = new List<Image>();
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString); ;
+            conn.Open();
+            string selectTxt = "SELECT id, path, upload_date, description, city, country "
+                + " FROM (SELECT ROW_NUMBER() OVER(ORDER BY upload_date) AS RowNum, id, path, upload_date, description, city, country"
+                + " FROM images im JOIN included_in inc ON im.id = inc.id_image"
+                + " WHERE inc.id_album = @id) imgs"
+                + " WHERE imgs.RowNum >= @first AND imgs.RowNum <= @last";
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters.Add(new SqlParameter("@first", System.Data.SqlDbType.Int));
+            cmd.Parameters.Add(new SqlParameter("@last", System.Data.SqlDbType.Int));
+
+            cmd.Parameters["@id"].Value = albumId;
+            cmd.Parameters["@first"].Value = first;
+            cmd.Parameters["@last"].Value = last;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Image img = new Image(reader.GetInt32(0), albumId, reader.GetString(1), reader.GetString(4), reader.GetString(5), reader.GetDateTime(2), reader.GetString(3));
+                images.Add(img);
+            }
+
+            reader.Close();
+            conn.Close();
+            return images;
+        }
+        public static List<Category> GetCategoriesNames()
+        {
+            List<Category> categories = new List<Category>();
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            conn.Open();
+
+            string selectTxt = "SELECT id, name FROM categories";
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Category categ = new Category(reader.GetString(1), reader.GetInt32(0));
+                categories.Add(categ);
+            }
+
+            reader.Close();
+            conn.Close();
+
+            return categories;
+        }
+        public static Category GetCategory(int id)
+        {
+            Category category = null;
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            conn.Open();
+
+            string selectTxt = "SELECT id_image, name FROM categories c JOIN belongs_to b  ON c.id = b.id_category JOIN images i on b.id_image = i.id WHERE c.id = @id ORDER BY i.upload_date DESC";
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+
+            cmd.Parameters["@id"].Value = id;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                int imgId = reader.GetInt32(0);
+                category = new Category(reader.GetString(1), id);
+
+                Image img = GetImage(imgId);
+
+                category.Images.Add(img);
+            }
+
+            while (reader.Read())
+            {
+                int imgId = reader.GetInt32(0);
+
+                Image img = GetImage(imgId);
+
+                category.Images.Add(img);
+            }
+
+
+            reader.Close();
+            conn.Close();
+
+            return category;
+        }
         #endregion
         #region Insert
         public static void InsertIntoUsers(string username, string firstName, string lastName, string email, DateTime birthdate, string password, bool isAdmin)

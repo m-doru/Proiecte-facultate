@@ -19,26 +19,27 @@ namespace Viewit.App_Code
         {
             Id = userId;
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            string selectTxt = "SELECT username, first_name, last_name, email, password, birthday, is_admin FROM users id = @userId";
+            string selectTxt = "SELECT username, first_name, last_name, email, password, birthday, is_admin FROM users WHERE id = @id";
 
             conn.Open();
             SqlCommand cmd = new SqlCommand(selectTxt, conn);
 
-            cmd.Parameters.Add(new SqlParameter("@username", TypeCode.String));
-            cmd.Parameters["@userId"].Value = userId;
-            SqlDataReader result = cmd.ExecuteReader();
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = userId;
 
-            if (result.Read())
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
             {
-                Username = result.GetString(0);
-                FirstName = result.GetString(1);
-                LastName = result.GetString(2);
-                Email = result.GetString(3);
-                Password = result.GetString(4);
-                Birthdate = result.GetDateTime(5);
-                IsAdmin = Convert.ToBoolean((int)result.GetValue(6));
+                Username = reader.GetString(0);
+                FirstName = reader.GetString(1);
+                LastName = reader.GetString(2);
+                Email = reader.GetString(3);
+                Password = reader.GetString(4);
+                Birthdate = reader.GetDateTime(5);
+                IsAdmin = reader.GetBoolean(6);
             }
-            result.Close();
+            reader.Close();
             conn.Close();
         }
     }

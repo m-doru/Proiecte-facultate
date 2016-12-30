@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace Viewit.App_Code
 {
@@ -32,6 +29,8 @@ namespace Viewit.App_Code
             Id = id;
 
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString); ;
+
+            conn.Open();
 
             string selectTxt = "SELECT uploader_id, path, upload_date, description, city, country FROM images WHERE id = @id";
 
