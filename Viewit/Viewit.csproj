@@ -94,6 +94,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Album.aspx" />
+    <Content Include="Categories.aspx" />
     <Content Include="CSS\MasterPage.css" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
@@ -121,12 +123,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Album.aspx.cs">
+      <DependentUpon>Album.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Album.aspx.designer.cs">
+      <DependentUpon>Album.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Code\Album.cs" />
     <Compile Include="App_Code\AuthenticationUtilities.cs" />
+    <Compile Include="App_Code\Category.cs" />
     <Compile Include="App_Code\Image.cs" />
     <Compile Include="App_Code\RandomUtils.cs" />
     <Compile Include="App_Code\SqlUtilities.cs" />
     <Compile Include="App_Code\User.cs" />
+    <Compile Include="Categories.aspx.cs">
+      <DependentUpon>Categories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Categories.aspx.designer.cs">
+      <DependentUpon>Categories.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
