@@ -34,8 +34,8 @@ for idx = 1:numarImagini
     
     for j = 1:numarExempleNegative_pe_imagine
         patch = img(x(j):x(j)+parametri.dimensiuneFereastra-1, y(j):y(j)+parametri.dimensiuneFereastra-1);
-        rez = vl_hog(single(patch), parametri.dimensiuneCelulaHOG);
-        descriptoriExempleNegative(idxEx, :) = rez(:);
+        descriptor = vl_hog(single(patch), parametri.dimensiuneCelulaHOG);
+        descriptoriExempleNegative(idxEx, :) = descriptor(:);
         idxEx = idxEx + 1;
     end
 end
