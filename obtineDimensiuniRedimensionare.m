@@ -29,16 +29,16 @@ function [ redimLinii, redimColoane ] = obtineDimensiuniRedimensionare( img , ex
     redimLinii(1) = size(img, 1);
     redimColoane(1) = size(img, 2);
     
-    for i = 2:4
+    for i = 2:5
         redimLinii(i) = ceil(redimLinii(i-1)*expandScale);
         redimColoane(i) = ceil(redimColoane(i-1)*expandScale);
     end
     
     
-    redimLinii(5) = floor(redimLinii(1)*reduceScale);
-    redimColoane(5) = floor(redimColoane(1)*reduceScale);
+    redimLinii(6) = floor(redimLinii(1)*reduceScale);
+    redimColoane(6) = floor(redimColoane(1)*reduceScale);
     
-    for i = 6:7
+    for i = 7:9
         redimLinii(i) = floor(redimLinii(i-1)*reduceScale);
         redimColoane(i) = floor(redimColoane(i-1)*reduceScale);
     end

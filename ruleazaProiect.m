@@ -16,8 +16,8 @@
 %% Pasul 0 - initializam parametri
 %seteaza path-urile pentru seturile de date: antrenare, test
 numeDirectorSetDate = '../data/'; %
-parametri.numeDirectorExemplePozitive = fullfile(numeDirectorSetDate, 'exemplePozitive3');                                   %exemple pozitive de antrenare: 36x36 fete cropate
-parametri.numeDirectorExempleNegative = fullfile(numeDirectorSetDate, 'exempleNegative');                                   %exemple negative de antrenare: imagini din care trebuie sa selectati ferestre 36x36
+parametri.numeDirectorExemplePozitive = fullfile(numeDirectorSetDate, 'exemplePozitive2');                                   %exemple pozitive de antrenare: 36x36 fete cropate
+parametri.numeDirectorExempleNegative = fullfile(numeDirectorSetDate, 'exempleNegative2');                                   %exemple negative de antrenare: imagini din care trebuie sa selectati ferestre 36x36
 parametri.numeDirectorExempleTest = fullfile(numeDirectorSetDate,'exempleTest/CMU+MIT');                                    %exemple test din dataset-ul CMU+MIT
 % parametri.numeDirectorExempleTest=fullfile(numeDirectorSetDate,'exempleTest/Curs+LaboratorIA');                            %exemple test realizate la laborator si curs
 parametri.numeDirectorAdnotariTest = fullfile(numeDirectorSetDate,'exempleTest/CMU+MIT_adnotari/ground_truth_bboxes.txt');  %fisierul cu adnotari pentru exemplele test din dataset-ul CMU+MIT
@@ -30,9 +30,9 @@ parametri.dimensiuneCelulaHOG = 3;               %dimensiunea celulei
 parametri.dimensiuneDescriptorCelula = 31;       %dimensiunea descriptorului unei celule
 parametri.overlap = 0.3;                         %cat de mult trebuie sa se suprapuna doua detectii pentru a o elimina pe cea cu scorul mai mic
 parametri.antrenareCuExemplePuternicNegative = 0;%(optional)antrenare cu exemple puternic negative
-parametri.numarExemplePozitive = 6713*3;           %numarul exemplelor pozitive
-parametri.numarExempleNegative = 20000;          %numarul exemplelor negative
-parametri.threshold = 0.6;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
+parametri.numarExemplePozitive = 6713*2;           %numarul exemplelor pozitive
+parametri.numarExempleNegative = 40002;          %numarul exemplelor negative
+parametri.threshold = 0;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
 parametri.vizualizareTemplateHOG = 1;            %vizualizeaza template HOG
 
 %% 
@@ -84,6 +84,47 @@ end
 % astfel incat sa va returneze descriptorii detectiilor cu scor >0 din cele 274 imagini negative
 % completati codul in continuare
 
+if (parametri.antrenareCuExemplePuternicNegative)
+
+    try
+        numeFisierDescriptoriExemplePuternicNegative = [parametri.numeDirectorSalveazaFisiere 'descriptoriExemplePuternicNegative_' num2str(parametri.dimensiuneCelulaHOG) '_' ...
+            parametri.numarExempleNegative '.mat'];
+        temp = load(numeFisierDescriptoriExemplePuternicNegative);
+        descriptoriExemplePuternicNegative = temp.descriptoriExemplePuternicNegative;
+        disp('Am incarcat descriptorii pentru exemplele puternic negative');
+    catch    
+        disp('Construim descriptorii pentru exemplele puternic negative:');
+
+        dirExempleTest = parametri.numeDirectorExempleTest;
+
+        parametri.numeDirectorExempleTest = parametri.numeDirectorExempleNegative;
+
+        [~, ~, ~, descriptoriExemplePuternicNegative] = ruleazaDetectorFacial(parametri);
+
+        disp('Am obtinut exemplele puternic negative');
+
+        parametri.numeDirectorExempleTest = dirExempleTest;
+
+        save(numeFisierDescriptoriExemplePuternicNegative,'descriptoriExemplePuternicNegative','-v7.3');
+         disp(['Am salvat descriptorii pentru exemplele puternic negative in fisierul ' numeFisierDescriptoriExemplePuternicNegative]);
+    end
+    
+    % reantrenare cu exemple puternic negative
+    disp('Reantrenam cu exemplele puternic negative');
+    exempleAntrenare = [descriptoriExemplePozitive;...
+        descriptoriExempleNegative;...
+        descriptoriExemplePuternicNegative]';
+     eticheteExempleAntrenare = [ones(size(descriptoriExemplePozitive,1),1);...
+         -1*ones(size(descriptoriExempleNegative,1),1); ...
+         -1*ones(size(descriptoriExemplePuternicNegative, 1), 1)];
+     [w, b] = antreneazaClasificator(exempleAntrenare,eticheteExempleAntrenare);
+     parametri.w = w;
+     parametri.b = b; 
+    %vizualizare model invatat HOG
+    if parametri.vizualizareTemplateHOG
+        vizualizeazaTemplateHOG(parametri);    
+    end
+end
 
 %% 
 % Pasul 4. Ruleaza detectorul facial pe imaginile de test.

@@ -1,4 +1,4 @@
-function [detectii, scoruriDetectii, imageIdx] = ruleazaDetectorFacial(parametri)
+function [detectii, scoruriDetectii, imageIdx, descriptoriDetectiiPozitive] = ruleazaDetectorFacial(parametri)
 % 'detectii' = matrice Nx4, unde 
 %           N este numarul de detectii  
 %           detectii(i,:) = [x_min, y_min, x_max, y_max]
@@ -25,25 +25,27 @@ detectii = zeros(0,4);
 scoruriDetectii = zeros(0,1);
 imageIdx = cell(0,1);
 
-for i = 1:length(imgFiles)  
+k = parametri.dimensiuneFereastra / parametri.dimensiuneCelulaHOG;
+descriptoriDetectiiPozitive = zeros(0, k*k*31);
+
+parfor i = 1:length(imgFiles)  
     fprintf('Rulam detectorul facial pe imaginea %s\n', imgFiles(i).name)
     imgOrig = imread(fullfile( parametri.numeDirectorExempleTest, imgFiles(i).name ));    
     if(size(imgOrig,3) > 1)
         imgOrig = rgb2gray(imgOrig);
     end    
     %completati codul functiei in continuare
-    %trebuie sa redimensionez imaginea, dar cum fac asta?
     
-    [redimLinii, redimColoane] = obtineDimensiuniRedimensionare(imgOrig, 1.3, 0.7);
+    [redimLinii, redimColoane] = obtineDimensiuniRedimensionare(imgOrig, 1.1, 0.6);
     detectiiCurente = zeros(0,4);
     scoruriDetectiiCurente = zeros(0,1);
     imageIdxCurente = cell(0,1);
+    descriptoriDetectiiPozitiveCurente = zeros(0, k*k*31);
     for q = 1:length(redimLinii)
         
         img = imresize(imgOrig, [redimLinii(q), redimColoane(q)]);
         
         descriptorHOG = vl_hog(single(img), parametri.dimensiuneCelulaHOG);
-        k = parametri.dimensiuneFereastra / parametri.dimensiuneCelulaHOG;
         for p = 1:size(descriptorHOG, 1)-k+1
             for j = 1:size(descriptorHOG, 2)-k+1
                 
@@ -58,6 +60,8 @@ for i = 1:length(imgFiles)
                     scoruriDetectiiCurente(end+1) = scor;
                     
                     imageIdxCurente{end+1} = imgFiles(i).name;
+                    
+                    descriptoriDetectiiPozitiveCurente(end+1, :) = patch(:);
                 end
             end
         end
@@ -70,10 +74,12 @@ for i = 1:length(imgFiles)
         detectiiMaxime = detectiiCurente(esteMaxim, :);
         scoruriMaxime = scoruriDetectiiCurente(esteMaxim);
         imageIdxMaxim = imageIdxCurente(esteMaxim);
-    
+        descriptoriMaxime = descriptoriDetectiiPozitiveCurente(esteMaxim, :);
+        
         detectii = [detectii; detectiiMaxime];
         scoruriDetectii = [scoruriDetectii scoruriMaxime];
         imageIdx = [imageIdx imageIdxMaxim];
+        descriptoriDetectiiPozitive = [descriptoriDetectiiPozitive; descriptoriMaxime];
     end
 end
 
