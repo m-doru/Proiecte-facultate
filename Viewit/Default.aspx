@@ -6,6 +6,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="Main" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Left" runat="server">
+    <asp:BulletedList id="CategoriesList" runat="server"></asp:BulletedList>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="Right" runat="server">
 </asp:Content>
