@@ -97,6 +97,7 @@
     <Content Include="Album.aspx" />
     <Content Include="Categories.aspx" />
     <Content Include="CSS\MasterPage.css" />
+    <Content Include="Image.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -133,6 +134,7 @@
     <Compile Include="App_Code\Album.cs" />
     <Compile Include="App_Code\AuthenticationUtilities.cs" />
     <Compile Include="App_Code\Category.cs" />
+    <Compile Include="App_Code\Comment.cs" />
     <Compile Include="App_Code\Image.cs" />
     <Compile Include="App_Code\RandomUtils.cs" />
     <Compile Include="App_Code\SqlUtilities.cs" />
@@ -146,6 +148,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Image.aspx.cs">
+      <DependentUpon>Image.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Image.aspx.designer.cs">
+      <DependentUpon>Image.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -193,7 +202,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Javascript\" />
+    <Folder Include="MatlabFunctions\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MLApp">
+      <Guid>{C36E46AB-6A81-457B-9F91-A7719A06287F}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

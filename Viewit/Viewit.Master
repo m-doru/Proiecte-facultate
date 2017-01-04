@@ -27,6 +27,9 @@
         </asp:ContentPlaceHolder>
     </div>
     <div class="right">
+        <asp:Button ID="LogoutButton" runat="server" OnClick="LogoutButton_Click" Visible="false" Text="Logout" CausesValidation="false"/>
+        <asp:Button ID="LoginButton" runat="server" OnClick="LoginButton_Click" Visible="false" Text="Login" CausesValidation="false"/>
+        <asp:Button ID="RegisterButton" runat="server" OnClick="RegisterButton_Click" Visible="false" Text="Register" CausesValidation="false"/>
         <asp:ContentPlaceHolder ID="Right" runat="server"></asp:ContentPlaceHolder>
     </div>
     </form>
