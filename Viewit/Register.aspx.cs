@@ -13,7 +13,14 @@ namespace Viewit
             if (Session["username"] != null && !string.IsNullOrEmpty((string)Session["username"]))
             {
                 string username = (string)Session["username"];
-                Response.Redirect("Profile.aspx?username=" + username);
+                if(Request.UrlReferrer != null)
+                {
+                    Response.Redirect(Request.UrlReferrer.ToString());
+                }else
+                {
+                    Response.Redirect("Profile.aspx?username=" + username);
+                }
+                
             }
             if (!IsPostBack)
             {

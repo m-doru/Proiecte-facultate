@@ -12,7 +12,8 @@ namespace Viewit
             if (Session["username"] != null && !string.IsNullOrEmpty((string)Session["username"]))
             {
                 string username = (string)Session["username"];
-                Response.Redirect("Profile.aspx?username=" + username);
+
+                Redirect(username);
             }
             PageMessage.Text = "Welcome";
         }
@@ -26,7 +27,7 @@ namespace Viewit
             LoginResult result = UsernameRegistered();
             if (result == LoginResult.Unregistered)
             {
-                PageMessage.Text = "Username does not belong to an account. Create one!";
+                PageMessage.Text = "Username does not belong to an account. Create one :)";
                 return;
             }
             if (result == LoginResult.WrongPassword)
@@ -35,7 +36,7 @@ namespace Viewit
                 return;
             }
             Session["username"] = Username.Text;
-            Response.Redirect(string.Format("Profile.aspx?username={0}", Username.Text));
+            Redirect(Username.Text);
 
         }
         private enum LoginResult { Unregistered, WrongPassword, Success }
@@ -80,6 +81,18 @@ namespace Viewit
 
             conn.Close();
             return LoginResult.WrongPassword;
+        }
+
+        private void Redirect(string username)
+        {
+            if (Request.UrlReferrer != null)
+            {
+                Response.Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                Response.Redirect("Profile.aspx?username=" + username);
+            }
         }
     }
 
