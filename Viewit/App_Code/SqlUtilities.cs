@@ -50,7 +50,7 @@ namespace Viewit.App_Code
             cmd.Parameters["@path"].Value = filepath;
             SqlDataReader result = cmd.ExecuteReader();
             int imgId = -1;
-            if (result.Read())
+            while (result.Read())
             {
                 imgId = (int)result.GetValue(0);
             }
@@ -190,7 +190,7 @@ namespace Viewit.App_Code
 
             conn.Open();
 
-            string selectTxt = "SELECT id, name FROM categories";
+            string selectTxt = "SELECT id, name FROM categories ORDER BY name";
 
             SqlCommand cmd = new SqlCommand(selectTxt, conn);
 
@@ -248,6 +248,84 @@ namespace Viewit.App_Code
             conn.Close();
 
             return category;
+        }
+
+        public static List<Comment> GetComments(int imageId)
+        {
+            List<Comment> comments = new List<Comment>();
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            string selectTxt = "SELECT c.id, user_id, image_id, content, date FROM comments c JOIN images i ON c.image_id = i.id WHERE i.id = @id";
+
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+
+            cmd.Parameters["@id"].Value = imageId;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Comment comm = new Comment(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetString(3), reader.GetDateTime(4));
+                comments.Add(comm);
+            }
+
+            reader.Close();
+            conn.Close();
+            return comments;
+        }
+        public static int GetEditedAlbumId(int userId)
+        {
+            int id;
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            conn.Open();
+            string selectTxt = "SELECT id FROM ALBUMS where LOWER(name) LIKE 'edited' AND id_user = @id";
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = userId;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                id = reader.GetInt32(0);
+            }
+            else
+            {
+                try
+                {
+                    CreateEditedAlbum(userId);
+                    conn.Close();
+                    id =  GetEditedAlbumId(userId);
+                }
+                catch(Exception)
+                {
+                    id = -1;
+                }
+                
+            }
+            return id;
+        }
+        private static void CreateEditedAlbum(int userId)
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            conn.Open();
+
+            string insertTxt = "INSERT INTO albums VALUES(@id, 'edited')";
+
+            SqlCommand cmd = new SqlCommand(insertTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = userId;
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
         #endregion
         #region Insert
@@ -346,7 +424,6 @@ namespace Viewit.App_Code
         public static int InsertIntoImages(string username, string filepath, string description, string city, string country)
         {
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            //string insertTxt = "INSERT INTO images(uploader_id, path, upload_date, description, city, country) VALUES(@url, @uploader,"
             string insertTxt = "INSERT INTO images VALUES(@uploader, @path, GETDATE(), @desc, @city, @country)";
             SqlCommand cmd = new SqlCommand(insertTxt, conn);
             conn.Open();
@@ -369,6 +446,97 @@ namespace Viewit.App_Code
             conn.Close();
 
             return GetImageId(filepath);
+        }
+
+        public static void InsertIntoComments(int imgId, int userId, string content)
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            string insertTxt = "INSERT INTO comments VALUES(@id_user, @id_img, @content, SYSDATETIME())";
+
+            SqlCommand cmd = new SqlCommand(insertTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id_user", System.Data.SqlDbType.Int));
+            cmd.Parameters.Add(new SqlParameter("@id_img", System.Data.SqlDbType.Int));
+            cmd.Parameters.Add(new SqlParameter("@content", TypeCode.String));
+
+            cmd.Parameters["@id_user"].Value = userId;
+            cmd.Parameters["@id_img"].Value = imgId;
+            cmd.Parameters["@content"].Value = content;
+
+            conn.Open();
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
+        public static void InsertIntoEdited(int imageId, int userId)
+        {
+            int editedAlbumId = GetEditedAlbumId(userId);
+            if(editedAlbumId == -1)
+            {
+                return;
+            }
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            conn.Open();
+            string insertTxt = "INSERT INTO included_in VALUES(@id_img, @id_album)";
+
+            SqlCommand cmd = new SqlCommand(insertTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id_img", System.Data.SqlDbType.Int));
+            cmd.Parameters.Add(new SqlParameter("@id_album", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id_img"].Value = imageId;
+            cmd.Parameters["@id_album"].Value = editedAlbumId;
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+        #endregion
+        #region Delete
+        public static void RemoveComment(int id)
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            string deleteTxt = "DELETE FROM comments WHERE id=@id";
+
+            SqlCommand cmd = new SqlCommand(deleteTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = id;
+
+            conn.Open();
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
+        public static void RemoveImage(int id)
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
+            conn.Open();
+
+            string delteTxt = "DELETE FROM belongs_to WHERE id_image = @id";
+
+            SqlCommand cmd = new SqlCommand(delteTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = id;
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "DELETE FROM included_in WHERE id_image = @id";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "DELETE FROM comments WHERE image_id = @id";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "DELETE FROM images WHERE id = @id";
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
         #endregion
     }
