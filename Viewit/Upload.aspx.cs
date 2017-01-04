@@ -47,7 +47,7 @@ namespace Viewit
                 ConnectWithSelectedCategories(fullPath);
                 ConnectWithSelectedAlbums(fullPath);
 
-                Response.Redirect("Image.aspx?image=" + imgId);
+                Response.Redirect("Image.aspx?id=" + imgId);
             }
         }
         private void ConnectWithSelectedCategories(string imgPath)
@@ -104,11 +104,16 @@ namespace Viewit
         }
         public void FillUserAlbums()
         {
+            User user = new User(SqlUtilities.GetUserId((string)Session["username"]));
+
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            string selectTxt = "SELECT a.name, a.id FROM users u JOIN albums a ON u.id = a.id_user ORDER BY name";
+            string selectTxt = "SELECT a.name, a.id FROM users u JOIN albums a ON u.id = a.id_user AND u.id = @id ORDER BY name";
 
             conn.Open();
             SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int));
+            cmd.Parameters["@id"].Value = user.Id;
 
             SqlDataReader result = cmd.ExecuteReader();
 

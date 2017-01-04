@@ -61,6 +61,7 @@ namespace Viewit
             int profileUserId = App_Code.SqlUtilities.GetUserId(profileUser);
             List<App_Code.Image> images = App_Code.SqlUtilities.GetImagesOrderedByDate(profileUserId, 1, lastAppendedImage + NR_OF_APPENDED_IMAGES);
 
+
             foreach (App_Code.Image img in images)
             {
                 ImageButton currImg = new ImageButton();
@@ -68,8 +69,7 @@ namespace Viewit
                 currImg.ImageUrl = img.Path;
                 currImg.Height = 600;
                 currImg.Width = 500;
-                currImg.OnClientClick = "ThumbnailClick";
-                //currImg.CssClass = "thumbnails";
+                currImg.PostBackUrl = "Image.aspx?id=" + img.Id.ToString();
                 currImg.BorderWidth = 20;
                 currImg.BorderColor = System.Drawing.Color.White;
 
@@ -90,12 +90,6 @@ namespace Viewit
                 ListItem li = new ListItem(album.Name, string.Format("Album.aspx?user={0}&album={1}", album.UserId, album.Id));
                 UserAlbumsList.Items.Add(li);
             }
-        }
-        private void ThumbnailClick(object sender, EventArgs e)
-        {
-            ImageButton img = (ImageButton)sender;
-
-            Response.Redirect("Images.aspx?id=" + img.ID);
         }
     }
 }

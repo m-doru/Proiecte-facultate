@@ -59,7 +59,7 @@ namespace Viewit
                 currImg.ImageUrl = img.Path;
                 currImg.Height = 600;
                 currImg.Width = 500;
-                currImg.OnClientClick = "ThumbnailClick";
+                currImg.PostBackUrl = "Image.asp?id=" + img.Id.ToString();
                 currImg.BorderWidth = 20;
                 currImg.BorderColor = System.Drawing.Color.White;
 
