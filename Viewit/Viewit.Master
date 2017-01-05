@@ -13,8 +13,8 @@
 <body>
     <form id="MasterForm" runat="server">
     <div class="top">
-        <asp:TextBox ID="SearchTextBox" placeholder="Search image" runat="server"/>
-        <asp:Button ID="SearchButton" runat="server" Text="Search"/>
+        <asp:TextBox ID="SearchTextBox" placeholder="Search image. Ex: city:Bucharest " runat="server" Width="200" ToolTip="You can search by country, city, album or category. Ex: country:Romania city:Bucharest category:dogs"/>
+        <asp:Button ID="SearchButton" runat="server" Text="Search" OnClick="SearchButton_Click"/>
         <asp:ContentPlaceHolder id="Top" runat="server"></asp:ContentPlaceHolder>
     </div>
     <br style="clear:both"/>
@@ -30,6 +30,8 @@
         <asp:Button ID="LogoutButton" runat="server" OnClick="LogoutButton_Click" Visible="false" Text="Logout" CausesValidation="false"/>
         <asp:Button ID="LoginButton" runat="server" OnClick="LoginButton_Click" Visible="false" Text="Login" CausesValidation="false"/>
         <asp:Button ID="RegisterButton" runat="server" OnClick="RegisterButton_Click" Visible="false" Text="Register" CausesValidation="false"/>
+        <asp:Button ID="MyProfileButton" runat="server" OnClick="MyProfileButton_Click" Visible="false" Text="My Profile" CausesValidation="false" />
+        <asp:Button ID="FrontPage" runat="server" OnClick="FrontPage_Click" Visible="true" Text="Front page" CausesValidation="false" />
         <asp:ContentPlaceHolder ID="Right" runat="server"></asp:ContentPlaceHolder>
     </div>
     </form>
