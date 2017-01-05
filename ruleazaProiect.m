@@ -15,6 +15,8 @@
 
 %% Pasul 0 - initializam parametri
 %seteaza path-urile pentru seturile de date: antrenare, test
+clear;
+clc;
 numeDirectorSetDate = '../data/'; %
 parametri.numeDirectorExemplePozitive = fullfile(numeDirectorSetDate, 'exemplePozitive2');                                   %exemple pozitive de antrenare: 36x36 fete cropate
 parametri.numeDirectorExempleNegative = fullfile(numeDirectorSetDate, 'exempleNegative2');                                   %exemple negative de antrenare: imagini din care trebuie sa selectati ferestre 36x36
@@ -29,10 +31,10 @@ parametri.dimensiuneFereastra = 36;              %exemplele pozitive (fete de oa
 parametri.dimensiuneCelulaHOG = 3;               %dimensiunea celulei
 parametri.dimensiuneDescriptorCelula = 31;       %dimensiunea descriptorului unei celule
 parametri.overlap = 0.3;                         %cat de mult trebuie sa se suprapuna doua detectii pentru a o elimina pe cea cu scorul mai mic
-parametri.antrenareCuExemplePuternicNegative = 0;%(optional)antrenare cu exemple puternic negative
-parametri.numarExemplePozitive = 6713*2;           %numarul exemplelor pozitive
+parametri.antrenareCuExemplePuternicNegative = 1;%(optional)antrenare cu exemple puternic negative
+parametri.numarExemplePozitive = 6713*2;         %numarul exemplelor pozitive
 parametri.numarExempleNegative = 40002;          %numarul exemplelor negative
-parametri.threshold = 0;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
+parametri.threshold = 1;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
 parametri.vizualizareTemplateHOG = 1;            %vizualizeaza template HOG
 
 %% 
@@ -52,6 +54,7 @@ catch
 end
 
 %exemple negative
+%redimensioneaza imaginile cand extragi exemplele negative
 try
     numeFisierDescriptoriExempleNegative = [parametri.numeDirectorSalveazaFisiere 'descriptoriExempleNegative_' num2str(parametri.dimensiuneCelulaHOG) '_' ...
         num2str(parametri.numarExempleNegative) '.mat'];
@@ -88,7 +91,7 @@ if (parametri.antrenareCuExemplePuternicNegative)
 
     try
         numeFisierDescriptoriExemplePuternicNegative = [parametri.numeDirectorSalveazaFisiere 'descriptoriExemplePuternicNegative_' num2str(parametri.dimensiuneCelulaHOG) '_' ...
-            parametri.numarExempleNegative '.mat'];
+            num2str(parametri.numarExempleNegative) '.mat'];
         temp = load(numeFisierDescriptoriExemplePuternicNegative);
         descriptoriExemplePuternicNegative = temp.descriptoriExemplePuternicNegative;
         disp('Am incarcat descriptorii pentru exemplele puternic negative');
@@ -99,7 +102,7 @@ if (parametri.antrenareCuExemplePuternicNegative)
 
         parametri.numeDirectorExempleTest = parametri.numeDirectorExempleNegative;
 
-        [~, ~, ~, descriptoriExemplePuternicNegative] = ruleazaDetectorFacial(parametri);
+        [d, s, idx, descriptoriExemplePuternicNegative] = ruleazaDetectorFacial(parametri);
 
         disp('Am obtinut exemplele puternic negative');
 

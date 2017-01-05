@@ -28,7 +28,7 @@ imageIdx = cell(0,1);
 k = parametri.dimensiuneFereastra / parametri.dimensiuneCelulaHOG;
 descriptoriDetectiiPozitive = zeros(0, k*k*31);
 
-parfor i = 1:length(imgFiles)  
+for i = 1:length(imgFiles)  
     fprintf('Rulam detectorul facial pe imaginea %s\n', imgFiles(i).name)
     imgOrig = imread(fullfile( parametri.numeDirectorExempleTest, imgFiles(i).name ));    
     if(size(imgOrig,3) > 1)
@@ -36,7 +36,7 @@ parfor i = 1:length(imgFiles)
     end    
     %completati codul functiei in continuare
     
-    [redimLinii, redimColoane] = obtineDimensiuniRedimensionare(imgOrig, 1.1, 0.6);
+    [redimLinii, redimColoane] = obtineDimensiuniRedimensionare(imgOrig, 1.05, 0.7);
     detectiiCurente = zeros(0,4);
     scoruriDetectiiCurente = zeros(0,1);
     imageIdxCurente = cell(0,1);
