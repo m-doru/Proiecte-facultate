@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -12,7 +13,35 @@ namespace Viewit.App_Code
         {
             return new User(userId);
         }
+        public static List<User> GetAdmins()
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            string selectTxt = "SELECT id FROM users WHERE is_admin = 1";
 
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(selectTxt, conn);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            List<User> admins = null;
+
+            if (reader.Read())
+            {
+                admins = new List<User>();
+                admins.Add(new User(reader.GetInt32(0)));
+            }
+
+            while (reader.Read())
+            {
+                admins.Add(new User(reader.GetInt32(0)));
+            }
+
+            reader.Close();
+            conn.Close();
+
+            return admins;
+        }
         public static Image GetImage(int imgId)
         {
             return new Image(imgId);
@@ -214,7 +243,7 @@ namespace Viewit.App_Code
 
             conn.Open();
 
-            string selectTxt = "SELECT id_image, name FROM categories c JOIN belongs_to b  ON c.id = b.id_category JOIN images i on b.id_image = i.id WHERE c.id = @id ORDER BY i.upload_date DESC";
+            string selectTxt = "SELECT id_image, name, i.upload_date FROM categories c JOIN belongs_to b  ON c.id = b.id_category JOIN images i on b.id_image = i.id WHERE c.id = @id ORDER BY i.upload_date DESC";
 
             SqlCommand cmd = new SqlCommand(selectTxt, conn);
 
@@ -269,7 +298,7 @@ namespace Viewit.App_Code
 
             while (reader.Read())
             {
-                Comment comm = new Comment(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetString(3), reader.GetDateTime(4));
+                Comment comm = new Comment(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetString(3), (DateTime) reader.GetValue(4));
                 comments.Add(comm);
             }
 
@@ -326,6 +355,49 @@ namespace Viewit.App_Code
             cmd.ExecuteNonQuery();
 
             conn.Close();
+        }
+
+        public static List<Image> FindImages(NameValueCollection queryParams)
+        {
+            List<Image> images = new List<Image>();
+            DbImagesSearchQuerry imageQuerry = new DbImagesSearchQuerry();
+            foreach(string key in queryParams.AllKeys)
+            {
+                if(key.ToLower() == "album")
+                {
+                    imageQuerry.AddAlbum();
+                }
+                if(key.ToLower() == "category")
+                {
+                    imageQuerry.AddCategory();
+                }
+            }
+            foreach(string key in queryParams.AllKeys)
+            {
+                string actualKey = key;
+                if (key.ToLower() == "category" || key.ToLower() == "album")
+                    actualKey = "name";
+                imageQuerry.AddCondition(actualKey, queryParams[key]);
+            }
+
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = imageQuerry.GetSqlCommand();
+            cmd.Connection = conn;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                Image img = new Image(id);
+                images.Add(img);
+            }
+
+            conn.Close();
+
+            return images;
         }
         #endregion
         #region Insert
