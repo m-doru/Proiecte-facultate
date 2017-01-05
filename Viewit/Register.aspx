@@ -16,6 +16,9 @@
                  <asp:RequiredFieldValidator ID="UserRequired" runat="server" 
                      ControlToValidate="Username" ErrorMessage="Username not inserted"></asp:RequiredFieldValidator>
              </td>
+             <td>
+                 <asp:CheckBox ID="IsAdmin" Visible="false" Text="Is admin" runat="server"/>
+             </td>
        </tr>
         <tr>
              <td>First name</td>

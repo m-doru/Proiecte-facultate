@@ -13,14 +13,26 @@ namespace Viewit
             if (Session["username"] != null && !string.IsNullOrEmpty((string)Session["username"]))
             {
                 string username = (string)Session["username"];
-                if(Request.UrlReferrer != null)
+                User user = new User(SqlUtilities.GetUserId(username));
+                if(user.IsAdmin)
                 {
-                    Response.Redirect(Request.UrlReferrer.ToString());
-                }else
-                {
-                    Response.Redirect("Profile.aspx?username=" + username);
+                    IsAdmin.Visible = true;
                 }
-                
+                else
+                {
+                    if (Request.UrlReferrer != null)
+                    {
+                        Response.Redirect(Request.UrlReferrer.ToString());
+                    }
+                    else
+                    {
+                        Response.Redirect("Profile.aspx?username=" + username);
+                    }
+                }                
+            }
+            if(SqlUtilities.GetAdmins() == null)
+            {
+                IsAdmin.Visible = true;
             }
             if (!IsPostBack)
             {
@@ -47,10 +59,13 @@ namespace Viewit
                 return;
             }
 
-            SqlUtilities.InsertIntoUsers(Username.Text, FirstName.Text, LastName.Text, Email.Text, BirthdayCalendar.SelectedDate, Password.Text, false);
+            bool isAdmin = false;
+            if (IsAdmin.Visible && IsAdmin.Checked)
+                isAdmin = true;
+
+            SqlUtilities.InsertIntoUsers(Username.Text, FirstName.Text, LastName.Text, Email.Text, BirthdayCalendar.SelectedDate, Password.Text, isAdmin);
 
             Session["username"] = Username.Text;
-            Session["password"] = Password.Text;
 
             Response.Redirect(string.Format("Profile.aspx?username={0}", Username.Text));
 
