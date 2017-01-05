@@ -114,7 +114,7 @@ namespace Viewit
                 content.BorderColor = System.Drawing.Color.White;
                 tr.Cells.Add(content);
 
-                if (loggedUsername != null && loggedUsername == imageUploader)
+                if (loggedUsername != null && (loggedUsername == imageUploader || new App_Code.User(App_Code.SqlUtilities.GetUserId(loggedUsername)).IsAdmin))
                 {
                     TableCell remove = new TableCell();
                     remove.BorderWidth = 10;
