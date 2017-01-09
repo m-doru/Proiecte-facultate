@@ -9,23 +9,13 @@ function [ redimLinii, redimColoane ] = obtineDimensiuniRedimensionare( img , ex
         redimColoane(i) = ceil(redimColoane(i-1)*expandScale);
     end
     
-    tempLinii = zeros(4, 1);
-    tempColoane = zeros(4, 1);
+    redimLinii(6) = ceil(redimLinii(1)*reduceScale);
+    redimColoane(6) = ceil(redimColoane(1)*reduceScale);
+    i = 6;
     
-    tempLinii(1) = floor(redimLinii(1)*reduceScale);
-    tempColoane(1) = floor(redimColoane(1)*reduceScale);
-    
-    for i = 2:4
-        tempLinii(i) = floor(tempLinii(i-1)*reduceScale);
-        tempColoane(i) = floor(tempColoane(i-1)*reduceScale);
+    while redimLinii(i) > 45 && redimColoane(i) > 45
+        redimLinii(i+1) = ceil(redimLinii(i) * reduceScale);
+        redimColoane(i+1) = ceil(redimColoane(i) * reduceScale);
+        i = i + 1;
     end
-    idx = 6;
-    for i = 1:4
-       if tempLinii(i) > 50 && tempColoane(i) > 50
-           redimLinii(idx) = tempLinii(i);
-           redimColoane(idx) = tempColoane(i);
-           idx = idx + 1;
-       end
-    end
-
 end

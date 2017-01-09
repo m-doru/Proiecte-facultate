@@ -17,24 +17,27 @@
 %seteaza path-urile pentru seturile de date: antrenare, test
 clear;
 clc;
+close all;
+tic;
 numeDirectorSetDate = '../data/'; %
 parametri.numeDirectorExemplePozitive = fullfile(numeDirectorSetDate, 'exemplePozitive2');                                   %exemple pozitive de antrenare: 36x36 fete cropate
 parametri.numeDirectorExempleNegative = fullfile(numeDirectorSetDate, 'exempleNegative2');                                   %exemple negative de antrenare: imagini din care trebuie sa selectati ferestre 36x36
 parametri.numeDirectorExempleTest = fullfile(numeDirectorSetDate,'exempleTest/CMU+MIT');                                    %exemple test din dataset-ul CMU+MIT
 % parametri.numeDirectorExempleTest=fullfile(numeDirectorSetDate,'exempleTest/Curs+LaboratorIA');                            %exemple test realizate la laborator si curs
 parametri.numeDirectorAdnotariTest = fullfile(numeDirectorSetDate,'exempleTest/CMU+MIT_adnotari/ground_truth_bboxes.txt');  %fisierul cu adnotari pentru exemplele test din dataset-ul CMU+MIT
+% parametri.numeDirectorExempleTest = fullfile(numeDirectorSetDate, 'exempleTest/blackwhite');
 parametri.existaAdnotari = 1;
 parametri.numeDirectorSalveazaFisiere = fullfile(numeDirectorSetDate,'salveazaFisiere/');
 mkdir(parametri.numeDirectorSalveazaFisiere);
 %seteaza valori pentru diferiti parametri
 parametri.dimensiuneFereastra = 36;              %exemplele pozitive (fete de oameni cropate) au 36x36 pixeli
-parametri.dimensiuneCelulaHOG = 3;               %dimensiunea celulei
+parametri.dimensiuneCelulaHOG = 4;               %dimensiunea celulei
 parametri.dimensiuneDescriptorCelula = 31;       %dimensiunea descriptorului unei celule
 parametri.overlap = 0.3;                         %cat de mult trebuie sa se suprapuna doua detectii pentru a o elimina pe cea cu scorul mai mic
 parametri.antrenareCuExemplePuternicNegative = 1;%(optional)antrenare cu exemple puternic negative
 parametri.numarExemplePozitive = 6713*2;         %numarul exemplelor pozitive
-parametri.numarExempleNegative = 40002;          %numarul exemplelor negative
-parametri.threshold = 1;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
+parametri.numarExempleNegative = 40000;          %numarul exemplelor negative
+parametri.threshold = 0;                         %toate ferestrele cu scorul > threshold si maxime locale devin detectii
 parametri.vizualizareTemplateHOG = 1;            %vizualizeaza template HOG
 
 %% 
@@ -133,6 +136,7 @@ end
 % Pasul 4. Ruleaza detectorul facial pe imaginile de test.
 [detectii, scoruriDetectii, imageIdx] = ruleazaDetectorFacial(parametri);
 
+toc
 %% 
 % Pasul 5. Evalueaza si vizualizeaza detectiile
 % Pentru imagini pentru care exista adnotari (cele din setul de date  CMU+MIT) folositi functia vizualizeazaDetectiiInImagineCuAdnotari.m,
