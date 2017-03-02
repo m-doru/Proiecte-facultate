@@ -1,4 +1,4 @@
-function y = Fex2( x )
+function y = Fex3( x )
 
 tmp = double(exp(x) - 2);
 

@@ -8,7 +8,8 @@ plot(x, y1, 'b');
 hold on;
 plot(x, y2, 'g');
 
-xstar = findSolBisect(double(0.5), double(1.5), @Fex2, -1);
+xstar = findSolBisect(double(0.5), double(1.5), @Fex3, -1);
+xstar
 
 tmp = exp(xstar) - 2;
 plot([xstar, xstar], [tmp, cos(tmp)], 'rx');
