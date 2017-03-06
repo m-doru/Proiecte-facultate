@@ -1,3 +1,3 @@
 function norma = normavectinf(v)
-    norma = max(v);
+    norma = max(abs(v));
 end
