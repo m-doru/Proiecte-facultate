@@ -5,6 +5,8 @@ function x = GaussCuPivot(A, b)
     for k = 1:(n-1)
         [~, p] = max(abs(Aext(k:end, k)));
         
+        p = p + k - 1;
+        
         lp = Aext(p, :);
         Aext(p, :) = Aext(k, :);
         Aext(k, :) = lp;
