@@ -1,0 +1,25 @@
+﻿body {
+}
+
+.center{
+    float:left;
+    width:70%;
+    align-content:center;
+}
+.left{
+    float:left;
+    width:15%;
+}
+.right{
+    float:left;
+    width:15%;
+}
+.top{
+    position:static;
+    text-align:center;
+}
+
+#ThumbnailsHolder{
+    display:block;
+    vertical-align:middle; 
+}
