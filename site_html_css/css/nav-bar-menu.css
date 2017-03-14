@@ -1,0 +1,136 @@
+#menu ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	background-color:rgb(0,0,52);
+}
+
+#menu > ul{
+	width:99%;
+}
+
+#menu li{
+	float:left;
+	font-size:1em;
+}
+
+#menu li:not(.fbthumbnail) a{
+	display:block;
+	color:white;
+	text-align:center;
+	padding:14px 16px;
+	text-decoration:none;
+	font-size:1.4em;
+}
+
+#menu li a:hover{
+	background-color:rgb(0,0,0);
+}
+
+#menu .fbthumbnail{
+	display:block;
+	float:right;
+	padding:9px 13px;
+}
+#menu .fbthumbnail:hover{
+	background-color:rgb(0,0,0);
+}
+.active{
+	background-color:rgba(32, 0, 0, 0.5);
+}
+
+.dropdown{
+	display: inline-block;
+}
+
+.dropdown-content{
+	display:none;
+	position:absolute;
+	background-color:rgb(0, 0, 52);
+	margin-top: -3px;
+  z-index: 1;
+	text-align: center;
+}
+
+.dropdown:hover .dropdown-content{
+	display: inline-block;
+}
+
+.dropdown-item{
+	display: inline-block;;
+	overflow: hidden;
+}
+
+
+
+
+
+
+/*<p>I am not a critic. <em>I am just an ordinary gamer</em> who played a lot of games but currently only has friends that play a lot.</p>*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+#menu ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+
+#menu li{
+    display:inline;
+    float:none;
+    margin:auto;
+    padding:0em 1.5em 2em 2em;
+}
+
+.dropdown{
+    text-align:left;
+    position:relative;
+    display:inline-block;
+    cursor:pointer;
+	font-size:90%;
+}
+.dropdown-content{
+    display:none;
+    position:absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    font-size:80%;
+	background-color:black;
+	color:white;
+}
+.dropdown-content a {
+    color: white;
+    text-decoration: none;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: inline-block;
+}
+*/

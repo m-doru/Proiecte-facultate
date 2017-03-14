@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!--<link media="screen" href="css/style.css" type="text/css" rel="stylesheet">-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="DoruMusuroi" content="Shot games reviews by one guy" />
+    <link href="css/container.css" rel="stylesheet" type="text/css" />
+    <link href="css/nav-bar-menu.css" rel="stylesheet" type="text/css" />
+    <link href="css/suggestions.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" media="(max-width: 500px)"
+				href="css/500px.css" type="text/css"/>
+
+				<link rel="stylesheet" media="(max-width: 900px) and (min-width: 501px)"
+						href="css/900px.css" type="text/css"/>
+    <title>
+		BCJ - Biblioteca centrala de Jocuri
+	</title>
+
+</head>
+
+<body>
+    <header>
+        <nav id ="menu">
+            <ul>
+                <li>
+                    <a href="about.html" class="drop">About</a>
+                </li>
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a class="drop">Genre</a>
+                    <div  class="dropdown-content">
+
+													<a class="dropdown-item" href="shooters.html">Shooter</a>
+													<a class="dropdown-item" href="for_parties.html">For Parties</a>
+													<a class="dropdown-item" href="rpg.html">RPG</a>
+					</div>
+                </li>
+                <li><a class="active" href="suggestions.html">Suggestions</a></li>
+				<li class="fbthumbnail"> <a href="https://www.facebook.com/doru.musuroi"><img src="res/fb.png" alt="Doru Musuroi Facebook"/></a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="container">
+        <form>
+            <select name="genre" id="genre">
+                <option value="rpg">RPG</option>
+                <option value="for_parties">For Parties</option>
+                <option value="shooter">Shooter</option>
+            </select>
+            <input id="suggestion_title" type="text" name="title" placeholder="Title" /><br />
+            <textarea id="suggestion_description" name="description" placeholder="Oppinion of the game"></textarea>
+            <input id="submit_button" type="submit" value="Submit" onclick="alert('Suggestion sent. Thank you!')"/>
+        </form>
+
+    </div>
+
+    <footer>
+        &copy;M-Doru
+    </footer>
+</body>
