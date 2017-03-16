@@ -1,5 +1,7 @@
+import type
+
 class State:
-    def __init__(self, name, type, is_final_state=False):
+    def __init__(self, name, type=None, is_final_state=False):
         self.transitions = {}
         self.name = name
         self.knownLetters = set()
@@ -33,7 +35,7 @@ class Automata:
     def try_transition(self, letter):
         return self.current_state.try_transition(letter)
 
-    def do_transition(self, letter):
+    def make_transition(self, letter):
         if self.try_transition(letter):
             next_state = self.current_state.get_transition_state(letter)
             self.previous_transitions.append((self.current_state, letter))
@@ -42,7 +44,7 @@ class Automata:
             msg = 'Transition not defined from ' + self.current_state.name + ' with ' + letter
             raise LookupError(msg)
 
-        if self.current_state.isFinalState:
+        if self.current_state.is_final_state:
             self.encountered_final_state = True
 
     def reverse(self):
@@ -58,5 +60,46 @@ class Automata:
     def in_final_state(self):
         return self.current_state.is_final_state
 
-    def _build_states_graph(config_file_path):
-        pass
+    def _build_states_graph(self, config_file_path):
+        with open(config_file_path, 'r') as configFile:
+            states = {}
+            processing_transitions = True
+            for line in configFile:
+                line = line.strip('\n')
+                transition_info = line.split(' ')
+
+                if len(transition_info) == 1:
+                    processing_transitions = False
+                    continue
+
+                if processing_transitions:
+                    # transition_info[0] - source state name
+                    # transition_info[1] - transition letter
+                    # transition_info[2] - detination state name
+
+                    if transition_info[0] in states:
+                        source_state = states[transition_info[0]]
+                    else:
+                        source_state = State(transition_info[0])
+                        states[transition_info[0]] = source_state
+
+                    if transition_info[2] in states:
+                        destination_state = states[transition_info[2]]
+                    else:
+                        destination_state = State(transition_info[2])
+                        states[transition_info[2]] = destination_state
+
+                    source_state.add_transition(transition_info[1], destination_state)
+                else:
+                    # transition_info structure
+                    # transition_info[0] - state name
+                    # transition_info[1] - is final state
+                    # trnasition_info[2] - state type in case it is final state
+                    state = states[transition_info[0]]
+                    if transition_info[1] == 'final':
+                        state.is_final_state = True
+                        state.type = type.Type[transition_info[2]]
+                    elif transition_info[1] == 'start':
+                        start_state = states[transition_info[0]]
+
+        return start_state
