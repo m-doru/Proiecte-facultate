@@ -3,10 +3,7 @@ import type
 from automata import State, Automata
 
 class LexicalAnalyzer:
-    KEYWORDS = ['auto','break','case','char','const','continue','default','do','double','else','enum','extern',
-                'float','for','goto','if','inline','int','long','register','restrict','return','short','signed',
-                'sizeof','static','struct','switch','typedef','union','unsigned','void','volatile','while','_Bool',
-                '_Complex','_Imaginary']
+
     SKIPABLE_CHARACTERS = [' ', '\t', '\n', '\r']
     NEW_LINE = ['\n', '\r\n']
     
@@ -20,7 +17,8 @@ class LexicalAnalyzer:
     def get_next_token(self):
         self.automata.reset()
 
-        while(self._skip_skippable_characters() or self._detect_and_skip_comments()):
+        while(self.position < len(self.input) and (self._skip_skippable_characters() or
+                  self._detect_and_skip_comments())):
             pass
 
         tokenValue = []
@@ -34,7 +32,7 @@ class LexicalAnalyzer:
 
             self.position += 1
 
-        if self.automata.in_final_state:
+        if self.automata.in_final_state():
             state = self.automata.current_state
 
             return my_token.Token(state.type, ''.join(tokenValue))
@@ -46,47 +44,53 @@ class LexicalAnalyzer:
                 self.position -= 1
                 tokenValue = tokenValue[:-1]
 
-            return my_token.Token(self.automata.current_state.type, tokenValue)
-        # else we stop the analysis and raise an error
-        if self.position < len(self.input):
+            return my_token.Token(self.automata.current_state.type, ''.join(tokenValue))
+
+        if self.position < len(self.input) or len(tokenValue) > 0:
+            # if the automata was not able to make a transition from current state and current letter we raise an error
             msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string ' \
                    + ''.join(tokenValue)
             raise Exception(msg)
         else:
+            # if we got the end of the input file we return none
             return None
 
     def _skip_to_newline(self):
-        while(self.input[self.position] not in self.NEW_LINE):
+        while(self.position < len(self.input) and self.input[self.position] not in self.NEW_LINE):
             self.position += 1
 
     def _skip_skippable_characters(self):
         flag = False
 
+        # we check if the first character is skipable in order to not set the flag to TRUE at every while's iteration
         if self.input[self.position] in self.SKIPABLE_CHARACTERS:
             flag = True
 
-        while(self.input[self.position] in self.SKIPABLE_CHARACTERS):
+        while(self.position < len(self.input) and self.input[self.position] in self.SKIPABLE_CHARACTERS):
             self.position += 1
 
         return flag
     
     def _detect_and_skip_comments(self):
-        flag = False
-        if self.input[self.position] == '/' and self.input[self.position+1] == '/':
-            flag = True
+        lineCommentEncountered = False
+        multilineCommentEncountered = False
+        if self.position < len(self.input)-1 and self.input[self.position] == '/' and\
+                        self.input[self.position+1] == '/':
+            lineCommentEncountered = True
             self._skip_to_newline()
 
-        if self.input[self.position] == '/' and self.input[self.position+1] == '*':
-            flag = True
+        if not lineCommentEncountered and self.input[self.position] == '/' and self.input[self.position+1] == '*':
+            multilineCommentEncountered = True
             self.position += 2
 
-            while(not (self.input[self.position] == '*' and self.input[self.position] == '/') and self.position < len(self.input)-2):
+            while(self.position < len(self.input)-2) and\
+                    not (self.input[self.position] == '*' and self.input[self.position+1] == '/'):
                 self.position += 1
         
-        if self.input[self.position] == '*' and self.input[self.position] == '/':
+        if multilineCommentEncountered and self.input[self.position] == '*' and self.input[self.position+1] == '/':
             self.position += 2
 
-        return flag
+        return lineCommentEncountered or multilineCommentEncountered
 
     def _read_input_file(self):
         with open(self.filePath, 'r') as inputFile:
