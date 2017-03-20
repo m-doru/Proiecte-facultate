@@ -1,0 +1,17 @@
+function [ x, Q, R ] = DescQR( A, b )
+
+n = size(A, 1);
+
+R = zeros(size(A));
+Q = zeros(size(A));
+
+R(1,1) = sqrt(sum(A(:, 1).^2));
+
+Q(:, 1) = A(:, 1) /R(1,1);
+
+for k = 2:n
+    
+end
+
+end
+
