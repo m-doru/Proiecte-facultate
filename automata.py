@@ -1,26 +1,34 @@
 import type
 
 class State:
-    def __init__(self, name, type=None, is_final_state=False):
+    def __init__(self, name, type=None, is_final_state=False, default_transition_state = None):
         self.transitions = {}
         self.name = name
-        self.knownLetters = set()
+        self.known_letters = set()
         self.is_final_state = is_final_state
         self.type = type
+        self.default_transition_state = default_transition_state
 
     def __str__(self):
         return self.name
 
     def add_transition(self, letter, state):
         self.transitions[letter] = state
-        self.knownLetters.add(letter)
+        self.known_letters.add(letter)
 
     def try_transition(self, letter):
-        return (letter in self.transitions)
+        if letter in self.transitions:
+            return True
+        else:
+            if not self.default_transition_state is None:
+                return True
 
     def get_transition_state(self, letter):
         if self.try_transition(letter):
-            return self.transitions[letter]
+            if letter in self.transitions:
+                return self.transitions[letter]
+            else:
+                return self.default_transition_state
         else:
             return None
 
@@ -65,12 +73,17 @@ class Automata:
             states = {}
             processing_transitions = True
             for line in configFile:
+                if line.startswith('#'):
+                    continue
                 line = line.strip('\n')
                 transition_info = line.split(' ')
 
                 if len(transition_info) == 1:
                     processing_transitions = False
                     continue
+
+                if transition_info[1] == '':
+                    transition_info[1] = ' '
 
                 if processing_transitions:
                     # transition_info[0] - source state name
@@ -89,7 +102,10 @@ class Automata:
                         destination_state = State(transition_info[2])
                         states[transition_info[2]] = destination_state
 
-                    source_state.add_transition(transition_info[1], destination_state)
+                    if transition_info[1] == 'default':
+                        source_state.default_transition_state = destination_state
+                    else:
+                        source_state.add_transition(transition_info[1], destination_state)
                 else:
                     # transition_info structure
                     # transition_info[0] - state name

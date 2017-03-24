@@ -39,6 +39,7 @@ class LexicalAnalyzer:
 
         # otherwise I try to recover from error if a final state was encountered along the way
         if self.automata.encountered_final_state:
+            print('Blocked in state ' + str(self.automata.current_state) + ' and processed ' + ''.join(tokenValue))
             while not self.automata.in_final_state():
                 self.automata.reverse()
                 self.position -= 1
