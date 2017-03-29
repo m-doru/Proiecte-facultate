@@ -947,7 +947,31 @@ digitsFinal F digitsFinalCuSufix
 digitsFinal l digitsFinalCuSufix
 digitsFinal L digitsFinalCuSufix
 start 0 const_oct_hex_float
-#--- DE ADAUGAT AICI TRANZITII PENTRU OCTAL
+start 1 constant_int_or_float
+start 2 constant_int_or_float
+start 3 constant_int_or_float
+start 4 constant_int_or_float
+start 5 constant_int_or_float
+start 6 constant_int_or_float
+start 7 constant_int_or_float
+start 8 constant_int_or_float
+start 9 constant_int_or_float
+constant_int_or_float 0 constant_int_or_float
+constant_int_or_float 1 constant_int_or_float
+constant_int_or_float 2 constant_int_or_float
+constant_int_or_float 3 constant_int_or_float
+constant_int_or_float 4 constant_int_or_float
+constant_int_or_float 5 constant_int_or_float
+constant_int_or_float 6 constant_int_or_float
+constant_int_or_float 7 constant_int_or_float
+constant_int_or_float 8 constant_int_or_float
+constant_int_or_float 9 constant_int_or_float
+constant_int_or_float l integer_sufix_l
+constant_int_or_float L integer_sufix_L
+constant_int_or_float u integer_sufix_uU
+constant_int_or_float U integer_sufix_uU
+constant_int_or_float . digits
+#--- ADAUGAT AICI TRANZITII PENTRU OCTAL
 const_oct_hex_float 8 const_dec_hex
 const_oct_hex_float 9 const_dec_hex
 const_dec_hex 0 const_dec_hex
@@ -980,6 +1004,10 @@ possible_octa 4 possible_octa
 possible_octa 5 possible_octa
 possible_octa 6 possible_octa
 possible_octa 7 possible_octa
+possible_octa l integer_sufix_l
+possible_octa L integer_sufix_L
+possible_octa u integer_sufix_uU
+possible_octa U integer_sufix_uU
 #----
 const_oct_hex_float x hex_int_or_float
 const_oct_hex_float X hex_int_or_float
@@ -1031,6 +1059,7 @@ hex_digits E hex_digits
 hex_digits F hex_digits
 hex_digits p binary_exponent
 hex_digits P binary_exponent
+hex_digits . end_hex_seq
 #aici nu stiu sigur daca e float sau integer deci trebuie sa mai adaug tranzitii cu l, L, u, U
 #adica pot sa adaug prefix de integer
 hex_digits l integer_sufix_l
@@ -1097,6 +1126,19 @@ end_hex_seq E end_hex_seq
 end_hex_seq F end_hex_seq
 end_hex_seq p binary_exponent
 end_hex_seq P binary_exponent
+# binary_exponent part
+binary_exponent + digitNecesar
+binary_exponent - digitNecesar
+binary_exponent 0 digitsFinal
+binary_exponent 1 digitsFinal
+binary_exponent 2 digitsFinal
+binary_exponent 3 digitsFinal
+binary_exponent 4 digitsFinal
+binary_exponent 5 digitsFinal
+binary_exponent 6 digitsFinal
+binary_exponent 7 digitsFinal
+binary_exponent 8 digitsFinal
+binary_exponent 9 digitsFinal
 #--------------------------------
 
 start start
@@ -1107,9 +1149,10 @@ stringLit-Identifier final STRING_LITERAL
 stringLiteralFinal final STRING_LITERAL
 charSequenceFinal final CHAR_LITERAL
 simple_punctuators final PUNCTUATOR
-digitsFinal final CONSTANT_FLOAT_DEC
-digitsFinalCuSufix final CONSTANT_FLOAT_DEC
-hex_digits final CONSTANT_INTEGRAL_HEX
+digitsFinal final CONSTANT_FLOAT
+digitsFinalCuSufix final CONSTANT_FLOAT
+hex_digits final CONSTANT_INTEGRAL
+possible_octa final CONSTANT_INTEGRAL
 composed| final PUNCTUATOR
 composed|| final PUNCTUATOR
 composed|= final PUNCTUATOR
@@ -1154,16 +1197,17 @@ composed! final PUNCTUATOR
 composed!= final PUNCTUATOR
 composed/ final PUNCTUATOR
 composed/= final PUNCTUATOR
-interger_sufix_LLuU final CONSTANT_INTEGRAL_HEX
-integer_sufix_LL final CONSTANT_INTEGRAL_HEX
-integer_sufix_L final CONSTANT_INTEGRAL_HEX
-integer_sufix_LuU final CONSTANT_INTEGRAL_HEX
-integer_suffix_uU_LL final CONSTANT_INTEGRAL_HEX
-integer_suffix_uU_ll final CONSTANT_INTEGRAL_HEX
-integer_suffix_uU_L final CONSTANT_INTEGRAL_HEX
-integer_suffix_uU_l final CONSTANT_INTEGRAL_HEX
-integer_sufix_uU final CONSTANT_INTEGRAL_HEX
-integer_sufix_l final CONSTANT_INTEGRAL_HEX
-integer_sufix_ll final CONSTANT_INTEGRAL_HEX
-integer_sufix_lluU final CONSTANT_INTEGRAL_HEX
-integer_sufix_luU final CONSTANT_INTEGRAL_HEX
+interger_sufix_LLuU final CONSTANT_INTEGRAL
+integer_sufix_LL final CONSTANT_INTEGRAL
+integer_sufix_L final CONSTANT_INTEGRAL
+integer_sufix_LuU final CONSTANT_INTEGRAL
+integer_suffix_uU_LL final CONSTANT_INTEGRAL
+integer_suffix_uU_ll final CONSTANT_INTEGRAL
+integer_suffix_uU_L final CONSTANT_INTEGRAL
+integer_suffix_uU_l final CONSTANT_INTEGRAL
+integer_sufix_uU final CONSTANT_INTEGRAL
+integer_sufix_l final CONSTANT_INTEGRAL
+integer_sufix_ll final CONSTANT_INTEGRAL
+integer_sufix_lluU final CONSTANT_INTEGRAL
+integer_sufix_luU final CONSTANT_INTEGRAL
+constant_int_or_float final CONSTANT_INTEGRAL
