@@ -755,9 +755,84 @@ header_name_ghilimele 9 header_name_ghilimele
 #tranzitia catre starea de acceptare a include
 header_name_mai_mic > include_header
 header_name_ghilimele " include_header
+#tranzitie catre StringLiteral/Identifier
+start L stringLit-Identifier
+stringLit-Identifier " stringSequence
+stringLit-Identifier ' charSequence
+#tranzitie de la L continuat cu litere mici
+stringLit-Identifier a parse_identifier
+stringLit-Identifier b parse_identifier
+stringLit-Identifier c parse_identifier
+stringLit-Identifier d parse_identifier
+stringLit-Identifier e parse_identifier
+stringLit-Identifier f parse_identifier
+stringLit-Identifier g parse_identifier
+stringLit-Identifier h parse_identifier
+stringLit-Identifier i parse_identifier
+stringLit-Identifier j parse_identifier
+stringLit-Identifier k parse_identifier
+stringLit-Identifier l parse_identifier
+stringLit-Identifier m parse_identifier
+stringLit-Identifier n parse_identifier
+stringLit-Identifier o parse_identifier
+stringLit-Identifier p parse_identifier
+stringLit-Identifier q parse_identifier
+stringLit-Identifier r parse_identifier
+stringLit-Identifier s parse_identifier
+stringLit-Identifier t parse_identifier
+stringLit-Identifier u parse_identifier
+stringLit-Identifier v parse_identifier
+stringLit-Identifier w parse_identifier
+stringLit-Identifier x parse_identifier
+stringLit-Identifier y parse_identifier
+stringLit-Identifier z parse_identifier
+stringLit-Identifier A parse_identifier
+stringLit-Identifier B parse_identifier
+stringLit-Identifier C parse_identifier
+stringLit-Identifier D parse_identifier
+stringLit-Identifier E parse_identifier
+stringLit-Identifier F parse_identifier
+stringLit-Identifier G parse_identifier
+stringLit-Identifier H parse_identifier
+stringLit-Identifier I parse_identifier
+stringLit-Identifier J parse_identifier
+stringLit-Identifier K parse_identifier
+stringLit-Identifier M parse_identifier
+stringLit-Identifier N parse_identifier
+stringLit-Identifier O parse_identifier
+stringLit-Identifier P parse_identifier
+stringLit-Identifier Q parse_identifier
+stringLit-Identifier R parse_identifier
+stringLit-Identifier S parse_identifier
+stringLit-Identifier T parse_identifier
+stringLit-Identifier U parse_identifier
+stringLit-Identifier V parse_identifier
+stringLit-Identifier W parse_identifier
+stringLit-Identifier X parse_identifier
+stringLit-Identifier Y parse_identifier
+stringLit-Identifier Z parse_identifier
+#---
+#tranzitii pentru secvente de string literal
+start " stringSequence
+stringSequence default stringSequence
+#tranzitie in string literal cu escape
+stringSequence \ escapeInsideQuotes
+escapeInsideQuotes default stringSequence
+#tranzitie catre starea finala
+stringSequence " stringLiteralFinal
+#----
+# parsarea char-sequence
+start ' charSequence
+charSequence default charSequence
+charSequence \ escapeChareSequence
+escapeCharSequence default charSequence
+charSequence ' charSequenceFinal
 
 #--------------------------------
 start start
 parse_identifier final IDENTIFIER
 punctuator_or_include_header final PUNCTUATOR
 include_header final INCLUDE_HEADER
+stringLit-Identifier final STRING_LITERAL
+stringLiteralFinal final STRING_LITERAL
+charSequenceFinal final CHAR_LITERAL

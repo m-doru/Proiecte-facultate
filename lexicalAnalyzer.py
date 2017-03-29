@@ -49,8 +49,8 @@ class LexicalAnalyzer:
 
         if self.position < len(self.input) or len(tokenValue) > 0:
             # if the automata was not able to make a transition from current state and current letter we raise an error
-            msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string ' \
-                   + ''.join(tokenValue)
+            msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string "' \
+                   + ''.join(tokenValue) + '" and trying to make a transition with ' + self.input[self.position]
             raise Exception(msg)
         else:
             # if we got the end of the input file we return none

@@ -12,5 +12,6 @@ class Type(Enum):
     CONSTANT_FLOAT_OCT = 9
     CONSTANT_FLOAT_HEX = 10
     INCLUDE_HEADER = 11
-    NONE = 12
+    CHAR_LITERAL = 12
+    NONE = 13
 

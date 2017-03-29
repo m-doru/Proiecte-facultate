@@ -2,10 +2,15 @@ import string
 
 graphic_characters = ['!', '\"', '#', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.','/', ':',
                       ';', '<','=', '?', '[', '\\',']','^', '_', '{', '|','}', '~']
+inside_quotes = ['!', '#', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.','/', ':',
+                      ';', '<','=', '?', '[', ']','^', '_', '{', '|','}', '~']
+inside_single_quotes = ['!', '\"', '#', '%', '&',  '(', ')', '*', '+', ',', '-', '.','/', ':',
+                      ';', '<','=', '?', '[', ']','^', '_', '{', '|','}', '~']
 hexa = ['a','b','c','d','e','f','A','B','C','D','E','F']
 octa = ['0','1','2','3','4','5','6','7']
-letters =  graphic_characters
-states = [('header_name_ghilimele_first', 'header_name_ghilimele')]
+
+letters = ['litere_mici', 'litere_mari', 'cifre'] + graphic_characters
+states = [('escapeCharSequence', 'charSequence')]
 
 '''
 states =[('id_U', 'id_U1')]
