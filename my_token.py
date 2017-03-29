@@ -9,7 +9,7 @@ class Token:
                     '_Complex','_Imaginary']
 
     def __init__(self, type, value):
-        self.type = type 
+        self._type = type
         self.val = None
 
         # in order to be keen on memory, we will keep as values the position on ordered dict of the corresponding
@@ -25,6 +25,13 @@ class Token:
     def value(self):
         keys = Token.VALUES.keys()
         return list(keys)[self.val]
+
+    @property
+    def type(self):
+        if self.value in Token.KEYWORDS:
+            return type.Type.KEYWORD
+        else:
+            return self._type
 
     def __str__(self):
         return str(self.type) + ' : ' + str(self.value)
