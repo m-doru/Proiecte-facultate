@@ -1,6 +1,6 @@
 import my_token
 import type
-from automata import State, Automata
+from automata import Automata
 
 class LexicalAnalyzer:
 
@@ -45,7 +45,9 @@ class LexicalAnalyzer:
                 self.position -= 1
                 tokenValue = tokenValue[:-1]
 
-            return my_token.Token(self.automata.current_state.type, ''.join(tokenValue))
+            tokenStringValue= ''.join(tokenValue)
+
+            return my_token.Token(self.automata.current_state.type, tokenStringValue)
 
         if self.position < len(self.input) or len(tokenValue) > 0:
             # if the automata was not able to make a transition from current state and current letter we raise an error
