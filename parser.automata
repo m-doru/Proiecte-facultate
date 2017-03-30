@@ -814,7 +814,10 @@ stringLit-Identifier Z parse_identifier
 #---
 #tranzitii pentru secvente de string literal
 start " stringSequence
+stringSequence \ escapeEndlineInString
 stringSequence default stringSequence
+stringSequence except endline
+escapeEndlineInString default stringSequence
 #tranzitie in string literal cu escape
 stringSequence \ escapeInsideQuotes
 escapeInsideQuotes default stringSequence
@@ -1084,7 +1087,6 @@ integer_sufix_uU l integer_suffix_uU_l
 integer_suffix_uU_L L integer_suffix_uU_LL
 integer_suffix_uU_l l integer_suffix_uU_ll
 integer_sufix_L U integer_sufix_LuU
-integer_sufix_L u integer_sufix_luU
 integer_sufix_L L integer_sufix_LL
 integer_sufix_LL u integer_sufix_LLuU
 integer_sufix_LL U interger_sufix_LLuU

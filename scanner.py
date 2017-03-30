@@ -50,7 +50,7 @@ class Scanner:
 
             return my_token.Token(self.automata.current_state.type, tokenStringValue)
 
-        if len(tokenValue) > 0:
+        if len(tokenValue) > 0 or self.position < len(self.input):
             # if the automata was not able to make a transition from current state and current letter we raise an error
             if self.position < len(self.input):
                 msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string "' \
@@ -63,6 +63,7 @@ class Scanner:
         else:
             # got to the end of file
             return None
+
     def _skip_to_newline(self):
         while(self.position < len(self.input) and self.input[self.position] not in self.NEW_LINE):
             self.position += 1

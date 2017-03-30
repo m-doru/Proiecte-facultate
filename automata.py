@@ -8,6 +8,7 @@ class State:
         self.is_final_state = is_final_state
         self.type = type
         self.default_transition_state = default_transition_state
+        self.fail_on = []
 
     def __str__(self):
         return self.name
@@ -17,7 +18,9 @@ class State:
         self.known_letters.add(letter)
 
     def try_transition(self, letter):
-        if letter in self.transitions:
+        if letter in self.fail_on:
+            return False
+        elif letter in self.transitions:
             return True
         else:
             if not self.default_transition_state is None:
@@ -104,6 +107,9 @@ class Automata:
 
                     if transition_info[1] == 'default':
                         source_state.default_transition_state = destination_state
+                    elif transition_info[1] == 'except':
+                        if transition_info[2] == 'endline':
+                            source_state.fail_on += '\n'
                     else:
                         source_state.add_transition(transition_info[1], destination_state)
                 else:
