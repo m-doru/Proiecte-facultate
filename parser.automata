@@ -966,11 +966,14 @@ constant_int_or_float 6 constant_int_or_float
 constant_int_or_float 7 constant_int_or_float
 constant_int_or_float 8 constant_int_or_float
 constant_int_or_float 9 constant_int_or_float
+constant_int_or_float e semn
+constant_int_or_float E semn
 constant_int_or_float l integer_sufix_l
 constant_int_or_float L integer_sufix_L
 constant_int_or_float u integer_sufix_uU
 constant_int_or_float U integer_sufix_uU
 constant_int_or_float . digits
+#ADAUGAT TRANZITII DE LA CONSTANTA LA EXPONENT
 #--- ADAUGAT AICI TRANZITII PENTRU OCTAL
 const_oct_hex_float 8 const_dec_hex
 const_oct_hex_float 9 const_dec_hex
@@ -984,8 +987,12 @@ const_dec_hex 6 const_dec_hex
 const_dec_hex 7 const_dec_hex
 const_dec_hex 8 const_dec_hex
 const_dec_hex 9 const_dec_hex
+const_dec_hex e semn
+const_dec_hex E semn
 const_dec_hex . digitsFinal
 #---
+const_oct_hex_float e semn
+const_oct_hex_float E seomn
 const_oct_hex_float 0 possible_octa
 const_oct_hex_float 1 possible_octa
 const_oct_hex_float 2 possible_octa
@@ -1004,6 +1011,8 @@ possible_octa 4 possible_octa
 possible_octa 5 possible_octa
 possible_octa 6 possible_octa
 possible_octa 7 possible_octa
+possible_octa e semn
+possible_octa E semn
 possible_octa l integer_sufix_l
 possible_octa L integer_sufix_L
 possible_octa u integer_sufix_uU
@@ -1177,6 +1186,7 @@ composed-= final PUNCTUATOR
 composed-> final PUNCTUATOR
 composed-- final PUNCTUATOR
 composed+ final PUNCTUATOR
+composed++ final PUNCTUATOR
 composed+= final PUNCTUATOR
 composed< final PUNCTUATOR
 composed<< final PUNCTUATOR
@@ -1211,3 +1221,5 @@ integer_sufix_ll final CONSTANT_INTEGRAL
 integer_sufix_lluU final CONSTANT_INTEGRAL
 integer_sufix_luU final CONSTANT_INTEGRAL
 constant_int_or_float final CONSTANT_INTEGRAL
+const_oct_hex_float final CONSTANT_INTEGRAL
+digits final CONSTANT_FLOAT

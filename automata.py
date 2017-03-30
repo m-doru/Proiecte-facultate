@@ -72,7 +72,7 @@ class Automata:
         with open(config_file_path, 'r') as configFile:
             states = {}
             processing_transitions = True
-            for line in configFile:
+            for i,line in enumerate(configFile):
                 if line.startswith('#'):
                     continue
                 line = line.strip('\n')

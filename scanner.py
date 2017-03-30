@@ -2,7 +2,7 @@ import my_token
 import type
 from automata import Automata
 
-class LexicalAnalyzer:
+class Scanner:
 
     SKIPABLE_CHARACTERS = [' ', '\t', '\n', '\r']
     NEW_LINE = ['\n', '\r\n']
@@ -39,7 +39,8 @@ class LexicalAnalyzer:
 
         # otherwise I try to recover from error if a final state was encountered along the way
         if self.automata.encountered_final_state:
-            print('Blocked in state ' + str(self.automata.current_state) + ' and processed ' + ''.join(tokenValue))
+            print('Recovering after blocked in state ' + str(self.automata.current_state) + ' and processed ' + ''.join(
+                tokenValue))
             while not self.automata.in_final_state():
                 self.automata.reverse()
                 self.position -= 1
@@ -49,15 +50,19 @@ class LexicalAnalyzer:
 
             return my_token.Token(self.automata.current_state.type, tokenStringValue)
 
-        if self.position < len(self.input) or len(tokenValue) > 0:
+        if len(tokenValue) > 0:
             # if the automata was not able to make a transition from current state and current letter we raise an error
-            msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string "' \
-                   + ''.join(tokenValue) + '" and trying to make a transition with ' + self.input[self.position]
-            raise Exception(msg)
+            if self.position < len(self.input):
+                msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string "' \
+                       + ''.join(tokenValue) + '" and trying to make a transition with ' + self.input[self.position]
+                raise Exception(msg)
+            else:
+                msg = 'Automata crashed in state ' + str(self.automata.current_state) + ' after processing the string "' \
+                       + ''.join(tokenValue) + '" and trying to make a transition with ' + self.input[self.position-1]
+                raise Exception(msg)
         else:
-            # if we got the end of the input file we return none
+            # got to the end of file
             return None
-
     def _skip_to_newline(self):
         while(self.position < len(self.input) and self.input[self.position] not in self.NEW_LINE):
             self.position += 1
