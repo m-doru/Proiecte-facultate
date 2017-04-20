@@ -1,12 +1,25 @@
 import firstfollowsets
+from scanner import Scanner
+
+FIRST = None
+FOLLOW = None
+END_SYMBOL = '$'
+SCAN = None
+PRODUCTIONS = None
+START_SYMBOL = None
 
 def load_grammar(filename):
     productions = {}
 
     with open(filename, 'r') as f:
         lines = f.readlines()
-        start_symbol = lines[0].split('->')[0].strip()
+        start_line = 0
+        while(start_line < len(lines) and lines[start_line][0] == '#'):
+            start_line += 1
+        start_symbol = lines[start_line].split('->')[0].strip()
         for line in lines:
+            if line[0] == '#':
+                continue
             production = line.split('->')
             nonterminal = production[0].strip()
 
@@ -19,42 +32,51 @@ def load_grammar(filename):
 
     return productions, start_symbol
 
-def compute_first_sets(productions):
-    changed = True
-    first = {}
-    for non_term in productions:
-        first[non_term] = set()
-    while(changed):
-        changed = False
-        for non_term in productions:
-            crt_first = firstfollowsets.first_set(non_term, productions, first)
-            # if crt_first is not a subset of first[non_term]
-            if not crt_first <= first[non_term]:
-                first[non_term] = first[non_term].union(crt_first)
-                changed = True
-    return first
+def nonterm_fct(nonterm):
+    for deriv in PRODUCTIONS[nonterm]:
+        first_of_el = firstfollowsets.compute_first_set_multiple_simbols(deriv, FIRST)
+        if END_SYMBOL not in first_of_el:
+            sd = first_of_el
+        else:
+            first_of_el.discard(END_SYMBOL)
+            sd = first_of_el.union(FOLLOW[nonterm])
 
-def compute_follow_sets(productions, start_symbol):
-    changed = True
-    follow = {}
-    for non_term in productions:
-        follow[non_term] = set()
-    while(changed):
-        changed = False
-        for non_term in productions:
-            crt_follow = follow
+        if SCAN.token in sd:
+            print(nonterm, '->', deriv)
+            parse(deriv)
+            return
+    print("Eroare la neterminalul ", nonterm)
+
+def parse(simbols):
+    if simbols[0] not in PRODUCTIONS:
+        SCAN.scan()
+        check(simbols[1:])
+    else:
+        nonterm_fct(simbols[0])
+        check(simbols[1:])
+
+def check(simbols):
+    if simbols[0] not in PRODUCTIONS:
+        if SCAN.token == simbols[0]
+            SCAN.scan()
+        else:
+            print("Eroare la scanarea tokenlui ", SCAN.token, " cu derivarea ", simbols)
+
+        check(simbols[1:])
+    else:
+        parse(simbols)
 
 def main():
-    productions,start_symbol = load_grammar('grammar.config')
-    first = compute_first_sets(productions, start_symbol)
+    PRODUCTIONS,START_SYMBOL = load_grammar('grammar.config')
 
-    follow = {}
+    FIRST = firstfollowsets.compute_first_set(PRODUCTIONS)
+    FOLLOW = firstfollowsets.compute_follow_set(PRODUCTIONS, START_SYMBOL)
 
-    for key in first:
-        print(key, ' ', first[key])
+    SCAN = Scanner('doru')
 
-    for key in follow:
-        print(key, ' ', follow[key])
+    nonterm_fct(START_SYMBOL, PRODUCTIONS)
 
+    if SCAN.token is not None:
+        print("Eroare la parsare. Nu s-au parsat toate token-urile")
 if __name__ == '__main__':
     main()
