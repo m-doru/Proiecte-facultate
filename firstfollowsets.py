@@ -37,6 +37,7 @@ def compute_follow_set(productions, start_symbol):
 
 def compute_first_set(productions):
     first = {}
+    first[LAMBDA] = set(END_SYMBOL)
     for nonterm in productions:
         first[nonterm] = set()
 

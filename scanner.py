@@ -10,9 +10,9 @@ class Scanner:
 
     def scan(self):
         self._index += 1
-        if self._index < len(self._tokens)
+        if self._index < len(self._tokens):
             self._token = self._tokens[self._index]
             return self._token
-        self._token = None
-        return None
+        self._token = '$'
+        return self._token
 

@@ -33,6 +33,11 @@ def load_grammar(filename):
     return productions, start_symbol
 
 def nonterm_fct(nonterm):
+    global PRODUCTIONS
+    global END_SYMBOL
+    global FIRST
+    global FOLLOW
+    global SCAN
     for deriv in PRODUCTIONS[nonterm]:
         first_of_el = firstfollowsets.compute_first_set_multiple_simbols(deriv, FIRST)
         if END_SYMBOL not in first_of_el:
@@ -42,22 +47,29 @@ def nonterm_fct(nonterm):
             sd = first_of_el.union(FOLLOW[nonterm])
 
         if SCAN.token in sd:
-            print(nonterm, '->', deriv)
+            print(nonterm, '->', "".join(deriv))
             parse(deriv)
             return
-    print("Eroare la neterminalul ", nonterm)
+    print("Eroare la neterminalul ", nonterm, " si parsarea ", SCAN.token)
 
 def parse(simbols):
+    global PRODUCTIONS
+    global SCAN
     if simbols[0] not in PRODUCTIONS:
-        SCAN.scan()
-        check(simbols[1:])
+        if simbols[0] != 'lambda':
+            SCAN.scan()
     else:
         nonterm_fct(simbols[0])
-        check(simbols[1:])
+
+    check(simbols[1:])
 
 def check(simbols):
+    if len(simbols) == 0:
+        return
+    global PRODUCTIONS
+    global SCAN
     if simbols[0] not in PRODUCTIONS:
-        if SCAN.token == simbols[0]
+        if SCAN.token == simbols[0]:
             SCAN.scan()
         else:
             print("Eroare la scanarea tokenlui ", SCAN.token, " cu derivarea ", simbols)
@@ -67,16 +79,21 @@ def check(simbols):
         parse(simbols)
 
 def main():
+    global PRODUCTIONS
+    global FIRST
+    global FOLLOW
+    global SCAN
+    global START_SYMBOL
     PRODUCTIONS,START_SYMBOL = load_grammar('grammar.config')
 
     FIRST = firstfollowsets.compute_first_set(PRODUCTIONS)
     FOLLOW = firstfollowsets.compute_follow_set(PRODUCTIONS, START_SYMBOL)
 
-    SCAN = Scanner('doru')
+    SCAN = Scanner('v*(v+v)-x')
 
-    nonterm_fct(START_SYMBOL, PRODUCTIONS)
+    nonterm_fct(START_SYMBOL)
 
-    if SCAN.token is not None:
+    if SCAN.token is not '$':
         print("Eroare la parsare. Nu s-au parsat toate token-urile")
 if __name__ == '__main__':
     main()
