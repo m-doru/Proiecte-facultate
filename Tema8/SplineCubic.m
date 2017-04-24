@@ -11,6 +11,8 @@ function spline = SplineCubic(f, fd, a, b, n, val)
         asociata(j, j) = 4;
         asociata(j, j+1) = 1;
     end
+    asociata(n+1, n+1) = 1;
+    
     libera = zeros(n+1, 1);
     libera(1) = fd(x(1));
     for j = 2:n

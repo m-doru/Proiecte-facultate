@@ -8,7 +8,7 @@ step = 0.01;
 f = @(x)exp(2*x);
 fd = @(x)2*exp(2*x);
 noduri = 10*(n+1);
-noduri = n;
+% noduri = n;
 
 ex = 3;
 
