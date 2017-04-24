@@ -5,19 +5,21 @@ function spline = SplineCubic(f, fd, a, b, n, val)
     for i = 2:n+1
         x(i) = x(i-1)+h;
     end
-    asociata = ones(n-1, 3) .* [1 4 1];
-    libera = zeros(n-1, 1);
+    asociata = eye(n+1, n+1);
     for j = 2:n
-        libera(j-1, 1) = (3/h) * (functie(x(j+1))-functie(x(j-1)));
+        asociata(j, j-1) = 1;
+        asociata(j, j) = 4;
+        asociata(j, j+1) = 1;
     end
-    
-    bcalc = inv(asociata)*libera;
+    libera = zeros(n+1, 1);
+    libera(1) = fd(x(1));
+    for j = 2:n
+        libera(j, 1) = (3/h) * (f(x(j+1))-f(x(j-1)));
+    end
+    libera(n+1) = fd(x(n+1));
     
     a = zeros(1,n);
-    b = zeros(1,n+1);
-    b(1) = fd(x(1));
-    b(2:n) = bcalc;
-    b(n+1) = fd(x(n+1));
+    b = asociata\libera;
     
     c = zeros(1,n);
     d = zeros(1,n);
@@ -29,8 +31,8 @@ function spline = SplineCubic(f, fd, a, b, n, val)
     end
     
     spline = 0;
-    for i = 1:n
-        if val >= x(j) && val <= x(j+1)
+    for j = 1:n
+        if ((val >= x(j)) && (val <= x(j+1)))
             spline = a(j) + b(j)*(val - x(j)) +...
                             c(j)*(val-x(j))^2 + d(j)*(val - x(j))^3;
         end
