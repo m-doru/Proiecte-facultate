@@ -1,4 +1,5 @@
 import firstfollowsets
+import sys
 from scanner import Scanner
 
 FIRST = None
@@ -51,6 +52,7 @@ def nonterm_fct(nonterm):
             parse(deriv)
             return
     print("Eroare la neterminalul ", nonterm, " si parsarea ", SCAN.token)
+    sys.exit(0)
 
 def parse(simbols):
     global PRODUCTIONS
@@ -73,6 +75,7 @@ def check(simbols):
             SCAN.scan()
         else:
             print("Eroare la scanarea tokenlui ", SCAN.token, " cu derivarea ", simbols)
+            sys.exit(0)
 
         check(simbols[1:])
     else:
@@ -89,11 +92,13 @@ def main():
     FIRST = firstfollowsets.compute_first_set(PRODUCTIONS)
     FOLLOW = firstfollowsets.compute_follow_set(PRODUCTIONS, START_SYMBOL)
 
-    SCAN = Scanner('v*(v+v)-x')
+    SCAN = Scanner('(a+a)')
 
     nonterm_fct(START_SYMBOL)
 
     if SCAN.token is not '$':
         print("Eroare la parsare. Nu s-au parsat toate token-urile")
+    else:
+        print("Cuvantul ", SCAN._tokens, " este acceptat de gramatica")
 if __name__ == '__main__':
     main()

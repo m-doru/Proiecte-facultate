@@ -20,16 +20,17 @@ def compute_follow_set(productions, start_symbol):
                     if symb not in deriv:
                         continue
 
-                    pos = deriv.index(symb)
-                    if pos == len(deriv)-1:
-                        follow[symb] = follow[symb].union(follow[nonterm])
-                        continue
-                    m = compute_first_set_multiple_simbols(deriv[pos+1:], compute_first_set(productions))
-                    if END_SYMBOL in m:
-                        m.discard(END_SYMBOL)
-                        follow[symb] = follow[symb].union(m).union(follow[nonterm])
-                    else:
-                        follow[symb] = follow[symb].union(m)
+                    indices = [i for i, x in enumerate(deriv) if x == symb]
+                    for pos in indices:
+                        if pos == len(deriv)-1:
+                            follow[symb] = follow[symb].union(follow[nonterm])
+                            continue
+                        m = compute_first_set_multiple_simbols(deriv[pos+1:], compute_first_set(productions))
+                        if END_SYMBOL in m:
+                            m.discard(END_SYMBOL)
+                            follow[symb] = follow[symb].union(m).union(follow[nonterm])
+                        else:
+                            follow[symb] = follow[symb].union(m)
 
         changed = not prev_follow == follow
 
@@ -64,7 +65,7 @@ def compute_first_set(productions):
                         w = w.union(first[deriv[i]])
                         i += 1
 
-                    if (i < len(deriv) and END_SYMBOL in first[deriv[i]])\
+                    if (i < len(deriv))\
                             or (i == len(deriv) and END_SYMBOL not in first[deriv[i-1]]):
                             w.discard(END_SYMBOL)
                     first[nonterm] = first[nonterm].union(w)
@@ -79,10 +80,12 @@ def compute_first_set_multiple_simbols(simbols, first_of):
     else:
         w = first_of[simbols[0]].copy()
         i = 1
-        while i < len(simbols) and LAMBDA in first_of[simbols[i]]:
+        while i < len(simbols) and LAMBDA in first_of[simbols[i-1]]:
             w = w.union(first_of[simbols[i]])
             i += 1
-        if LAMBDA in first_of[simbols[-1]]:
+        if i < len(simbols):
+            w.discard(LAMBDA)
+        elif LAMBDA not in first_of[simbols[-1]]:
             w.discard(LAMBDA)
 
     return w
