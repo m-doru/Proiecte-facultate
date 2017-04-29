@@ -7,8 +7,8 @@ function ex3()
   for i = 1:numel(metode)
     metoda = metode{i};
     aprox_int = Integrare(f, a, b, m, metoda);
-    real_int = integral(f, a, b);
+    real_int = quad(f, a, b);
     err = abs(aprox_int - real_int);
-    disp(['Eroarea pentru metoda ', metoda', ' este ', num2str(err)]);    
+    disp(['Eroarea pentru metoda ', metoda, ' este ', num2str(err)]);    
   end
 end

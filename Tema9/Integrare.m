@@ -30,7 +30,7 @@ function I = integrare_trapez(f, a, b, m)
   x = linspace(a, b, m+1);
   h = (b-a)/m;
   
-  I = h/2*(f(x(1)) + 2*sum(f(x(2:m))) + f(m+1));
+  I = h/2*(f(x(1)) + 2*sum(f(x(2:m))) + f(x(m+1)));
 end
 
 function I = integrare_Simpson(f, a, b, m)
