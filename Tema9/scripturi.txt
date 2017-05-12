@@ -1,0 +1,205 @@
+ex1b.m
+----------
+function ex1b()
+ 
+  a = -3;
+  b = 3;
+  fct = @(x)x.^3 - x.^2 -4*x + 4;
+  n_vals = [4 6 8];
+  fderiv = @(x)3*x.^2 - 2*x - 4;
+
+  domeniu = linspace(a,b);
+
+  vals_fderiv = fderiv(domeniu);
+
+  for n_idx = 1:numel(n_vals)
+    n = n_vals(n_idx);
+    h = (b-a)/n;
+    vals_metRich = zeros(1,numel(domeniu));
+    for idx = 1:numel(domeniu)
+      vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n, @phi);
+    end
+    figure;
+    deriv = plot(domeniu, vals_fderiv, 'r');
+    set(deriv, 'linewidth', 3);
+    hold on;
+    rich = plot(domeniu, vals_metRich, 'b');
+    set(rich, 'linewidth', 1.5);
+    hold off;
+    title(['graficul pentru n = ', num2str(n)]);
+   end
+ 
+end
+
+
+============
+ex1c.m
+----------
+function ex1c()
+ 
+a = -3;
+b = 3;
+fct = @(x)x.^3 - x.^2 -4*x + 4;
+n_vals = [4 6 8];
+fderiv = @(x)3*x.^2 - 2*x - 4;
+
+domeniu = linspace(a,b);
+
+vals_fderiv = fderiv(domeniu);
+
+for n_idx = 1:numel(n_vals)
+  n = n_vals(n_idx);
+  h = (b-a)/n;
+  vals_metRich = zeros(1,numel(domeniu));
+  for idx = 1:numel(domeniu)
+    vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n, @phi);
+  end
+  figure;
+  plot(domeniu, abs(vals_fderiv-vals_metRich), 'r');
+  title(['grafic pentru n = ', num2str(n)]);
+ end
+
+end
+
+============
+ex1de.m
+----------
+function ex1de()
+a = -3;
+b = 3;
+fct = @(x)x.^3 - x.^2 -4*x + 4;
+n_vals = [4 6 8];
+fderiv = @(x)3*x.^2 - 2*x - 4;
+fderiv2 = @(x)6*x-2;
+
+domeniu = linspace(a,b);
+
+vals_fderiv = fderiv(domeniu);
+vals_fderiv2 = fderiv2(domeniu);
+
+for n_idx = 1:numel(n_vals)
+  n = n_vals(n_idx);
+  h = (b-a)/n;
+  vals_metRich = zeros(1,numel(domeniu));
+  for idx = 1:numel(domeniu)
+    vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n-1, @phi2);
+  end
+  figure;
+  plot(domeniu, vals_metRich, 'b');
+  title(['grafic metRich pentru n = ', num2str(n)]);
+  figure;
+  plot(domeniu, abs(vals_fderiv2-vals_metRich), 'r');
+  title(['grafic de eroare pentru n = ', num2str(n)]);
+ end
+end
+
+============
+ex3.m
+----------
+function ex3()
+  a = -3;
+  b = 3;
+  f = @(x)x.^3-x.^2-4*x+4;
+  m = 100;
+  metode = {'dreptunghi', 'trapez', 'Simpson', 'Newton'};
+  for i = 1:numel(metode)
+    metoda = metode{i};
+    aprox_int = Integrare(f, a, b, m, metoda);
+    real_int = quad(f, a, b);
+    err = abs(aprox_int - real_int);
+    disp(['Eroarea pentru metoda ', metoda, ' este ', num2str(err)]);    
+  end
+end
+
+============
+Integrare.m
+----------
+function I = Integrare(f, a, b, m, metoda)
+  metode = {'dreptunghi','trapez', 'Simpson', 'Newton'};
+  if ~any(ismember(metode, metoda))
+    disp(['Metoda nu se afla printre metodele acceptate', metode]);
+    return;
+  end
+  if strcmp(metoda,'dreptunghi')
+    I = integrare_dreptunghi(f,a,b,m);
+  end
+  if strcmp(metoda, 'Simpson')
+    I = integrare_Simpson(f,a,b,m);
+  end
+  if strcmp(metoda,'trapez')
+    I = integrare_trapez(f,a,b,m);
+  end
+  if strcmp(metoda, 'Newton')
+    I = integrare_Newton(f, a, b, m);
+  end  
+end
+
+function I = integrare_dreptunghi(f, a, b, m)
+  x = linspace(a, b, 2*m+1);
+  h = (b-a)/(2*m);
+  I = 0;
+  for k = 1:m
+    I = I + f(x(2*k));
+  end
+  I = I * 2 * h;
+  
+end
+
+function I = integrare_trapez(f, a, b, m)
+  x = linspace(a, b, m+1);
+  h = (b-a)/m;
+  
+  I = h/2*(f(x(1)) + 2*sum(f(x(2:m))) + f(x(m+1)));
+end
+
+function I = integrare_Simpson(f, a, b, m)
+  x = linspace(a,b,2*m+1);
+  h = (b-a)/(2*m);
+  
+  I = h/3*(f(x(1)) + 4*sum(f(x(2:2:end))) + 2*sum(f(x(3:2:end))) + f(x(2*m+1)));
+end
+
+function I = integrare_Newton(f, a, b, m)
+    x = linspace(a,b,m+1);
+    h = (b - a)/m;
+    sum = 0;
+    for k=1:m
+        sum = sum + f(x(k+1)) + 3 * f((2*x(k+1) + x(k))/3) + 3 * f((x(k+1) + 2*x(k))/3) + f(x(k));
+    end
+    I = h/8 * sum;
+end
+
+============
+MetRichardson.m
+----------
+function [df] = MetRichardson(f, x, h, n, phi)
+  Q = zeros(n);
+  for i = 1:n
+    Q(i,1) = phi(f, x, h/(2^(i-1)));
+  end
+  
+  for j = 2:n
+    for i = j:n
+      Q(i,j) = Q(i, j-1) + ...
+        1/(2^(j-1)-1)*(Q(i, j-1) - Q(i-1, j-1));
+    end
+  end
+  df = Q(n,n);
+end
+
+
+============
+phi2.m
+----------
+function phi = phi2(f, x, h)
+  phi = (f(x+h)-2*f(x)+f(x-h))/h^2;
+end
+
+============
+phi.m
+----------
+function phi = phi(f,x, h)
+  phi = (f(x+h)-f(x))/h;
+end
+
+============

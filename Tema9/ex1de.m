@@ -18,11 +18,14 @@ for n_idx = 1:numel(n_vals)
   for idx = 1:numel(domeniu)
     vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n-1, @phi2);
   end
-  figure;
+  fig1 = figure;
   plot(domeniu, vals_metRich, 'b');
-  title(['grafic metRich pentru n = ', num2str(n)]);
-  figure;
+  title(['ex1de grafic metRich pentru n = ', num2str(n)]);
+  fig2 = figure;
   plot(domeniu, abs(vals_fderiv2-vals_metRich), 'r');
-  title(['grafic de eroare pentru n = ', num2str(n)]);
+  title(['ex1de grafic de eroare pentru n = ', num2str(n)]);
+  saveas(fig1, ['ex1de grafic metRich pentru n = ', num2str(n), '.pdf'], 'pdf');
+  saveas(fig2, ['ex1de grafic eroare pentru n = ', num2str(n), '.pdf'], 'pdf');
+  
  end
 end

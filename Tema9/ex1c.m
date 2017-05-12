@@ -17,9 +17,10 @@ for n_idx = 1:numel(n_vals)
   for idx = 1:numel(domeniu)
     vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n, @phi);
   end
-  figure;
+  fig1 = figure;
   plot(domeniu, abs(vals_fderiv-vals_metRich), 'r');
-  title(['grafic pentru n = ', num2str(n)]);
+  title(['ex1c grafic pentru n = ', num2str(n)]);
+  saveas(fig1, ['ex1c_grafic_pentru_n-', num2str(n), '.pdf'], 'pdf')
  end
 
 end

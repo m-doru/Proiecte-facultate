@@ -17,14 +17,15 @@ function ex1b()
     for idx = 1:numel(domeniu)
       vals_metRich(idx) = MetRichardson(fct, domeniu(idx), h, n, @phi);
     end
-    figure;
+    fig = figure;
     deriv = plot(domeniu, vals_fderiv, 'r');
     set(deriv, 'linewidth', 3);
     hold on;
     rich = plot(domeniu, vals_metRich, 'b');
     set(rich, 'linewidth', 1.5);
     hold off;
-    title(['graficul pentru n = ', num2str(n)]);
+    title(['ex1b - graficul pentru n = ', num2str(n)]);
+    saveas(fig, ['ex1b - graficul pentru n = ', num2str(n), '.pdf'], 'pdf');
    end
  
 end
