@@ -1,4 +1,4 @@
-function [ t, x ] = Euler( f, a, b, alfa, N )
+function [ t, x ] = Midpoint( f, a, b, alfa, N )
     h = (b-a)/N;
     t = zeros(1,N+1);
     t(1) = a;
@@ -8,7 +8,9 @@ function [ t, x ] = Euler( f, a, b, alfa, N )
     x = zeros(size(alfa,1),N);
     x(:,1) = alfa;
     for i = 1:N
-       x(:,i+1) = x(:,i) + h*f(t(i),x(:,i));
+       K1 = h*f(t(i), x(:,i));
+       K2 = h*f(t(i)+(h/2), x(:,i) + (K1/2));
+       x(:,i+1) = x(:,i) + K2;
     end
 end
 

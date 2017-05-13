@@ -1,7 +1,6 @@
-function [ y ] = f2( x, t )
-    A = [1, 2; 2, 1];
+function [ Y ] = f2( t, X )
+    A = [1 2; 2 1];
     b = [1; 2];
-    A * x
-    y = A * x + b;
+    Y = A*X + b;
 end
 
