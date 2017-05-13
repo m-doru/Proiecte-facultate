@@ -1,10 +1,10 @@
-f = @(x, t) x - (t^2) + 1;
-df = @(x, t) x - (t^2) - 2 * t - 1;
+f = @(t, x) x - (t^2) + 1;
+df = @(t, x) x - (t^2) - 2 * t + 1;
 % OBS: df = d2f = d3f
 a = 0;
 b = 2;
 alfa = 0.5;
-N = 100;
+N = 10;
 
 solf = @(t)(t+1).^2 - 1/2.*(exp(t));
 figure;
@@ -17,6 +17,7 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Euler');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_euler.jpg','jpg');
 
 figure;
 [t,x] = Eulermod(f, a, b, alfa, N);
@@ -28,6 +29,7 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Euler modificata');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_euler_modificata.jpg', 'jpg');
 
 figure;
 [t,x] = TaylorII(f,df, a, b, alfa, N);
@@ -39,6 +41,7 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Taylor 2');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_Taylor_2.jpg', 'jpg');
 
 figure;
 [t,x] = TaylorIV(f, df,df,df, a, b, alfa, N);
@@ -50,6 +53,7 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Taylor 4');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_Taylor_4.jpg', 'jpg');
 
 figure;
 [t,x] = Heun(f, a, b, alfa, N);
@@ -61,6 +65,7 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Heun');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_heun.jpg', 'jpg');
 
 figure;
 [t,x] = RungeKutta(f, a, b, alfa, N);
@@ -72,3 +77,4 @@ set(fixa, 'linewidth', 1.5);
 hold off;
 title('Metoda Runge Kutta');
 legend('numerica', 'fixa');
+saveas(gcf, 'Metoda_runge_kutta.jpg', 'jpg');

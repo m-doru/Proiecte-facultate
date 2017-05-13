@@ -1,5 +1,5 @@
 function [t, x] = MidPoint(f, a ,b, alfa, N)
-  t = zeros(N+1, 1);
+  t = zeros(1, N+1);
   t(1) = a;
   h = (b-a)/N;
   for i = 2:N+1

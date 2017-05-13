@@ -1,4 +1,0 @@
-function [ y ] = d2f( t, x )
-    y = -2 - 2*t - 2 *t + 
-end
-

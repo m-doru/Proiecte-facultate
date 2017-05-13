@@ -7,7 +7,7 @@ function [t, x] = Euler(f, a, b, alfa, N)
   end
   x = zeros(size(alfa, 1), N+1);
   x(:,1) = alfa;
-  for i = 2:N
+  for i = 1:N
     x(:,i+1) = x(:,i) + h * f(t(i), x(:,i));
   end 
 end
