@@ -12,7 +12,7 @@ solf = @(t)[3*exp(3*t)+exp(-t)-1;3*exp(3*t)-exp(-t)];
 figure;
 real_vals = solf(t);
 diff = x - real_vals;
-pc = plot(t, sqrt(sum(diff.^2, 1)), 'r');
+plot(t, sqrt(sum(diff.^2, 1)), 'r');
 title('Eroare la runge kutta');
 saveas(gcf, '2xeroare_runge_kutta.jpg', 'jpg');
 
@@ -21,7 +21,7 @@ saveas(gcf, '2xeroare_runge_kutta.jpg', 'jpg');
 figure;
 real_vals = solf(t);
 diff = x - real_vals;
-pc = plot(t, sqrt(sum(diff.^2, 1)), 'r');
+plot(t, sqrt(sum(diff.^2, 1)), 'r');
 title('Eroare la Euler');
 saveas(gcf, '2xEroare_euler.jpg', 'jpg');
 
@@ -29,7 +29,7 @@ saveas(gcf, '2xEroare_euler.jpg', 'jpg');
 figure;
 real_vals = solf(t);
 diff = x - real_vals;
-pc = plot(t, sqrt(sum(diff.^2, 1)), 'r');
+plot(t, sqrt(sum(diff.^2, 1)), 'r');
 title('Eroare la Eulermod');
 saveas(gcf, '2xeroare_euler_mod.jpg', 'jpg');
 
@@ -37,7 +37,7 @@ saveas(gcf, '2xeroare_euler_mod.jpg', 'jpg');
 figure;
 real_vals = solf(t);
 diff = x - real_vals;
-pc = plot(t, sqrt(sum(diff.^2, 1)), 'r');
+plot(t, sqrt(sum(diff.^2, 1)), 'r');
 title('Eroare la MidPoint');
 saveas(gcf, '2xeroare_midpoint.jpg', 'jpg');
 
@@ -45,6 +45,6 @@ saveas(gcf, '2xeroare_midpoint.jpg', 'jpg');
 figure;
 real_vals = solf(t);
 diff = x - real_vals;
-pc = plot(t, sqrt(sum(diff.^2, 1)), 'r');
+plot(t, sqrt(sum(diff.^2, 1)), 'r');
 title('Eroare la Heun');
 saveas(gcf, '2xeroare_heun.jpg', 'jpg');
